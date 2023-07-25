@@ -9,16 +9,18 @@ import 'dart:async';
 Map temp = {};
 Map token = {};
 Map status = {};
-
-
-var state_nums = 0;
+int state_nums = 0;
 
 
 List<Map> status1 = [];
 List<Map> statuses = [];
 List<Widget> orderStatuses = [];
+Map<String,dynamic> tempMap = {};
+
+
 
 void main() async {
+  tempMap = await getApi();
   token = await getData('admin','ugUYT76hjg',RequestVar.getTokenRequest());
   temp = await getData('admin','ugUYT76hjg',RequestVar.getStatusRequest(token["result"]));
   status1 = (temp["result"] as List).map((e) => e as Map).toList();
@@ -29,7 +31,6 @@ void main() async {
   }
   for(var num = 0; num < statuses.length; num++) {
     orderStatuses.add(OrderStatus(num: num));
-    print(statuses[num]["color"]);
 
   }
 
@@ -48,10 +49,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  int _unitNum = 0;
   @override
   Widget build(BuildContext context) {
+    CashDesks cashDesks = getDesksInfo(tempMap);
 
-    CarouselController buttonCarouselController = CarouselController();
 
     return Scaffold(
       appBar: AppBar(
@@ -102,7 +104,54 @@ class _MyAppState extends State<MyApp> {
             ),
               ),
 
-          StatusBlock(stream: controller.stream)
+          StatusBlock(stream: controller.stream),
+
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Table(
+
+              children:  [
+                TableRow(children: [Text('name'), Text('surname')]),
+                TableRow(children: [
+                  Text(cashDesks.data[_unitNum].users_assigned[0].name),
+                  Text(cashDesks.data[_unitNum].users_assigned[0].surname),
+                ]),
+                TableRow(children: [
+                  Text(cashDesks.data[_unitNum].users_assigned[1].name),
+                  Text(cashDesks.data[_unitNum].users_assigned[1].surname),
+                ]),
+              ],
+              border: TableBorder.all(width: 1, color: Colors.purple),
+            ),
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      _unitNum = 2;
+                    });
+                  }
+              ),
+              FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      _unitNum = 4;
+                    });
+                  }
+              ),
+              FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      _unitNum = 0;
+                    });
+                  }
+              ),
+            ],
+          )
+
 
 
         ]
