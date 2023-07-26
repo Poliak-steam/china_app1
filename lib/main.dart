@@ -111,7 +111,6 @@ class _MyAppState extends State<MyApp> {
           Padding(
             padding: const EdgeInsets.all(20),
             child: Table(
-
               children:  [
                 const TableRow(children: [Text('name'), Text('surname')]),
                 TableRow(children: [

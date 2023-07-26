@@ -111,6 +111,7 @@ class _StatusBlockState extends State<StatusBlock> {
       height: 100,
       width: 400,
       margin: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       color: Colors.white,
       foregroundDecoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1),
@@ -123,9 +124,9 @@ class _StatusBlockState extends State<StatusBlock> {
             children: [
               Container(
                 width: 250,
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                height: 100,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Row(
                         children: [
