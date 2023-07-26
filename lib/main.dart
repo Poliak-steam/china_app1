@@ -6,6 +6,8 @@ import 'package:china_app/networking/request_vars.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:async';
 
+import 'package:flutter/rendering.dart';
+
 Map temp = {};
 Map token = {};
 Map status = {};
@@ -111,7 +113,7 @@ class _MyAppState extends State<MyApp> {
             child: Table(
 
               children:  [
-                TableRow(children: [Text('name'), Text('surname')]),
+                const TableRow(children: [Text('name'), Text('surname')]),
                 TableRow(children: [
                   Text(cashDesks.data[_unitNum].users_assigned[0].name),
                   Text(cashDesks.data[_unitNum].users_assigned[0].surname),
@@ -150,14 +152,30 @@ class _MyAppState extends State<MyApp> {
                   }
               ),
             ],
-          )
+          ),
+
+Container(
+  height: 200,
+decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1),),
+  child:
+    Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(children: [Text('data')],),
+        Row(children: [Text('data')],),
+        Row(children: [Text('data')],),
+        Row(children: [Text('data')],),
+      ],
+    ),
 
 
+),
 
         ]
 
 
       ),
+
 
           //функция которая возвращает виджет для текущего статуса
           //GetCurrentStatus();

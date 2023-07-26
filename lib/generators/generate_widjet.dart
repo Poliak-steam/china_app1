@@ -9,7 +9,7 @@ StreamController<int> controller = StreamController<int>();
 
 class OrderStatus extends StatefulWidget {
   final int num;
-  const OrderStatus({ Key? key, required this.num }): super(key: key);
+  const OrderStatus({Key? key, required this.num}) : super(key: key);
 
   @override
   State<OrderStatus> createState() => _OrderStatusState();
@@ -18,14 +18,12 @@ class OrderStatus extends StatefulWidget {
 class _OrderStatusState extends State<OrderStatus> {
   @override
   Widget build(BuildContext context) {
-
-    return  GestureDetector(
-      onTap: (){
+    return GestureDetector(
+      onTap: () {
         setState(() {
           state_nums = widget.num;
           controller.add(state_nums);
         });
-
       },
       child: Container(
         // const Color.fromRGBO(34, 53, 147, 0.6)
@@ -44,20 +42,22 @@ class _OrderStatusState extends State<OrderStatus> {
                     children: [
                       Text(
                         statuses[widget.num]["name"],
-                        style:  const TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Arial'
-                        ),
+                        style: const TextStyle(
+                            color: Colors.white, fontFamily: 'Arial'),
                       ),
                     ],
                   ),
                 ),
                 Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // Image.network(statuses[num]['image']);
                     // NetworkImage(statuses[num]['image']
-                    Icon(Icons.circle, color: Colors.green, size: 8,),
+                    Icon(
+                      Icons.circle,
+                      color: Colors.green,
+                      size: 8,
+                    ),
                   ],
                 ),
               ],
@@ -65,7 +65,11 @@ class _OrderStatusState extends State<OrderStatus> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.home_filled, color: Colors.white, size: 45,),
+                Icon(
+                  Icons.home_filled,
+                  color: Colors.white,
+                  size: 45,
+                ),
               ],
             ),
           ],
@@ -75,20 +79,16 @@ class _OrderStatusState extends State<OrderStatus> {
   }
 }
 
-
 class StatusBlock extends StatefulWidget {
-
   final Stream<int> stream;
 
-  const StatusBlock({ Key? key, required this.stream }): super(key: key);
-
+  const StatusBlock({Key? key, required this.stream}) : super(key: key);
 
   @override
   State<StatusBlock> createState() => _StatusBlockState();
 }
 
 class _StatusBlockState extends State<StatusBlock> {
-
   int value = 0;
 
   void _updateSeconds(int newValue) {
@@ -107,26 +107,98 @@ class _StatusBlockState extends State<StatusBlock> {
 
   @override
   Widget build(BuildContext context) {
-
-
-    return SizedBox(
+    return Container(
       height: 100,
-      child: Container(
-        color: Colors.grey,
-        child: ListView(
-          children: [
-            Text(statuses[value]["name"]),
-          ],
-        ),
+      width: 400,
+      margin: EdgeInsets.only(top: 20),
+      color: Colors.white,
+      foregroundDecoration: BoxDecoration(
+        border: Border.all(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListView(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 250,
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            size: 8,
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 10)),
+                          Text(
+                            statuses[value]["name"],
+                            style: TextStyle(
+                              fontFamily: 'Arial',
+                              fontSize: 16,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Number of order',
+                            style: TextStyle(
+                              color: colorList['bagde-blue2'],
+                              fontSize: 18,
+                              fontFamily: 'Arial',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                'data: 01.01.2001',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: 'Arial',
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                'Weight info',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: 'Arial',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+              ),
+              Column(
+                children: [
+                  Icon(
+                    Icons.add_a_photo,
+                    size: 80,
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
