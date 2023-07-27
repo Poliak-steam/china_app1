@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:china_app/main.dart';
 import 'package:china_app/vars/variables.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:china_app/networking/data_requests.dart';
 
 StreamController<int> controller = StreamController<int>();
+CashDesks cashDesks = getDesksInfo(tempMap);
 
 class OrderStatus extends StatefulWidget {
   final int num;
@@ -127,66 +128,66 @@ class _StatusBlockState extends State<StatusBlock> {
                 height: 100,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            size: 8,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          size: 8,
+                        ),
+                        Padding(padding: EdgeInsets.only(left: 10)),
+                        Text(
+                          statuses[value]["name"],
+                          style: TextStyle(
+                            fontFamily: 'Arial',
+                            fontSize: 16,
+                            color: Colors.grey,
                           ),
-                          Padding(padding: EdgeInsets.only(left: 10)),
-                          Text(
-                            statuses[value]["name"],
-                            style: TextStyle(
-                              fontFamily: 'Arial',
-                              fontSize: 16,
-                              color: Colors.grey,
-                            ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Number of order',
+                          style: TextStyle(
+                            color: colorList['bagde-blue2'],
+                            fontSize: 18,
+                            fontFamily: 'Arial',
+                            fontWeight: FontWeight.bold,
                           ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'Number of order',
-                            style: TextStyle(
-                              color: colorList['bagde-blue2'],
-                              fontSize: 18,
-                              fontFamily: 'Arial',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                'data: 01.01.2001',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: 'Arial',
-                                ),
+                        ),
+                      ],
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'data: 01.01.2001',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: 'Arial',
                               ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                'Weight info',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: 'Arial',
-                                ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              'Weight info',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: 'Arial',
                               ),
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
               Column(
                 children: [
@@ -202,4 +203,18 @@ class _StatusBlockState extends State<StatusBlock> {
       ),
     );
   }
+}
+
+Widget createTable(int unit) {
+  List<TableRow> rows = [];
+  for (int i = 0; i < cashDesks.data[unit].users_assigned.length; ++i) {
+    rows.add(TableRow(children: [
+      Text(cashDesks.data[unit].users_assigned[i].id.toString()),
+      Text(cashDesks.data[unit].users_assigned[i].name),
+      Text(cashDesks.data[unit].users_assigned[i].name),
+      Text(cashDesks.data[unit].currency_title),
+    ]));
+  }
+  return Table(
+      children: rows, border: TableBorder.all(width: 1, color: Colors.black));
 }
