@@ -1,5 +1,6 @@
 import 'package:china_app/vars/variables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:china_app/networking/data_requests.dart';
 import 'package:china_app/generators/generate_widjet.dart';
 import 'package:china_app/networking/request_vars.dart';
@@ -7,6 +8,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:async';
 
 import 'package:flutter/rendering.dart';
+
+final _storage = FlutterSecureStorage();
 
 Map temp = {};
 Map token = {};
@@ -21,6 +24,12 @@ Map<String, dynamic> tempMap = {};
 void main() async {
   tempMap = await getApi();
   token = await getData('admin', 'ugUYT76hjg', RequestVar.getTokenRequest());
+
+  await _storage.write(
+    key: "token",
+    value: "token",
+  );
+
   temp = await getData(
       'admin', 'ugUYT76hjg', RequestVar.getStatusRequest(token["result"]));
   status1 = (temp["result"] as List).map((e) => e as Map).toList();
@@ -50,6 +59,7 @@ class _MyAppState extends State<MyApp> {
   int _unitNum = 0;
   @override
   Widget build(BuildContext context) {
+    print(_storage.read(key: "token"));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(21, 37, 104, 1),
@@ -99,7 +109,7 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   Expanded(
                       child: Wrap(
-                          spacing: 5,
+                    spacing: 5,
                     runSpacing: 5,
                     children: [
                       ElevatedButton(
@@ -175,7 +185,7 @@ class _MyAppState extends State<MyApp> {
       ]),
 
       //функция которая возвращает виджет для текущего статуса
-      //GetCurrentStatus();
+      // GetCurrentStatus();
     );
   }
 }
