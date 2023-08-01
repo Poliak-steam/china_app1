@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:china_app/storage/secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:china_app/networking/request_vars.dart';
 
-Future<Map> getData(user,psw,Map requestMap) async {
+Future<Map> postOrderInfo(user,psw,Map requestMap) async {
   String url = 'http://master.crm.hl-group.ru/api';
   String basicAuth = 'Basic ' + base64.encode(utf8.encode('$user:$psw'));
   Map map;
@@ -13,34 +13,42 @@ Future<Map> getData(user,psw,Map requestMap) async {
     headers: {'authorization': basicAuth},
     body: requestMap,
   );
-
-  if(response.body.contains('error_text')) {
-    final Map token = await getData(user, psw, RequestVar.getTokenRequest());
-    requestMap.remove('token');
-    requestMap.addAll({'token': '${token["result"]}'} as Map<String,String>);
-    map = await getData(user, psw, requestMap);
+  print('send post request "postOrderInfo"');
+  if(response.body[0] == 'Неверный ключ или он уже истек. Получите новый ключ.') {
+    try {
+      final Map token = await postOrderInfo(user, psw, RequestVar.getTokenRequest());
+     await SecureStorage.setValue(token['result']);
+      requestMap.remove('token');
+      requestMap.addAll({'token': '${await SecureStorage.getValue('token')}'});
+      map = await postOrderInfo(user, psw, requestMap);
+      print('token was refreshed and resend post request "postOrderInfo"');
+    } catch (er) {
+      print('token wasn\'t refreshed. Error: $er' );
+      map = {
+        'error': '1'
+      };
+    }
+  } else if (response.body.contains('error_text')) {
+    print('postOrderInfo can\'t be sand. Error: ${response.body[0]}');
+    map = {
+      'error': '1'
+    };
   } else {
   map = json.decode(response.body);}
 
   return map;
 }
 
-Future<Map<String, dynamic>> getApi() async {
+Future<Map<String, dynamic>> getCashDesks() async {
   String url = 'https://api.cash-test.odin.hl-group.ru/api/cash_desks';
-  var temp = await http.get(Uri.parse(url));
-  var temp1 = json.decode(temp.body);
-  //print(response.data[0].users_assigned[1].name);
-  return temp1;
+  var apiRespTemp = await http.get(Uri.parse(url));
+  return json.decode(apiRespTemp.body);
 }
 
 CashDesks getDesksInfo (someMap) {
-
   CashDesks response = CashDesks.fromJson(someMap);
-
   return response;
-
 }
-
 
 class CashDesks {
 
@@ -70,8 +78,6 @@ class CashDesks {
   }
 
 }
-
-
 class Headers {
   Headers({required this.name, required this.bundle, required this.accessor, required this.type});
   // non-nullable - assuming the score field is always present
@@ -102,9 +108,6 @@ class Headers {
     };
   }
 }
-
-
-
 class Data {
   Data({
     required this.id,
@@ -199,7 +202,6 @@ class Data {
     };
   }*/
 }
-
 class Currency {
   Currency({required this.id, required this.title, required this.symbol});
   // non-nullable - assuming the score field is always present
@@ -228,8 +230,6 @@ class Currency {
     };
   }
 }
-
-
 class UsersAssigned {
   UsersAssigned({required this.id, required this.name, required this.surname});
   // non-nullable - assuming the score field is always present

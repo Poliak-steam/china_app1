@@ -1,17 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:china_app/main.dart';
 import 'package:china_app/vars/variables.dart';
-import 'package:china_app/networking/data_requests.dart';
 
-StreamController<int> controller = StreamController<int>();
-CashDesks cashDesks = getDesksInfo(tempMap);
-
+//БЛОК СЛАЙДЕРА
 class OrderStatus extends StatefulWidget {
+  //индекс статуса
   final int num;
   const OrderStatus({Key? key, required this.num}) : super(key: key);
-
   @override
   State<OrderStatus> createState() => _OrderStatusState();
 }
@@ -21,13 +16,9 @@ class _OrderStatusState extends State<OrderStatus> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          state_nums = widget.num;
-          controller.add(state_nums);
-        });
+        orderNumStream.add(widget.num);
       },
       child: Container(
-        // const Color.fromRGBO(34, 53, 147, 0.6)
         color: colorList[statuses[widget.num]["color"]],
         padding: EdgeInsets.all(7),
         child: Column(
@@ -49,7 +40,7 @@ class _OrderStatusState extends State<OrderStatus> {
                     ],
                   ),
                 ),
-                Column(
+                const Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // Image.network(statuses[num]['image']);
@@ -82,9 +73,7 @@ class _OrderStatusState extends State<OrderStatus> {
 
 class StatusBlock extends StatefulWidget {
   final Stream<int> stream;
-
   const StatusBlock({Key? key, required this.stream}) : super(key: key);
-
   @override
   State<StatusBlock> createState() => _StatusBlockState();
 }
@@ -92,7 +81,7 @@ class StatusBlock extends StatefulWidget {
 class _StatusBlockState extends State<StatusBlock> {
   int value = 0;
 
-  void _updateSeconds(int newValue) {
+  void _updateValue(int newValue) {
     setState(() {
       value = newValue;
     });
@@ -101,8 +90,8 @@ class _StatusBlockState extends State<StatusBlock> {
   @override
   void initState() {
     super.initState();
-    widget.stream.listen((seconds) {
-      _updateSeconds(seconds);
+    widget.stream.listen((Value) {
+      _updateValue(Value);
     });
   }
 
@@ -205,16 +194,158 @@ class _StatusBlockState extends State<StatusBlock> {
   }
 }
 
-Widget createTable(int unit) {
+Widget createTable(int? unit) {
   List<TableRow> rows = [];
-  for (int i = 0; i < cashDesks.data[unit].users_assigned.length; ++i) {
-    rows.add(TableRow(children: [
-      Text(cashDesks.data[unit].users_assigned[i].id.toString()),
-      Text(cashDesks.data[unit].users_assigned[i].name),
-      Text(cashDesks.data[unit].users_assigned[i].name),
-      Text(cashDesks.data[unit].currency_title),
+  if (unit == null) {
+    rows.add( const TableRow(children: [
+      Text(''),
+      Text(''),
+      Text(''),
+      Text(''),
     ]));
+  } else {
+    for (int i = 0; i < cashDesks.data[unit].users_assigned.length; ++i) {
+      rows.add(TableRow(children: [
+        Text(cashDesks.data[unit].users_assigned[i].id.toString()),
+        Text(cashDesks.data[unit].users_assigned[i].name),
+        Text(cashDesks.data[unit].users_assigned[i].surname),
+        Text(cashDesks.data[unit].currency_title),
+      ]));
+    }
   }
   return Table(
       children: rows, border: TableBorder.all(width: 1, color: Colors.black));
+}
+
+class UserTable extends StatefulWidget {
+  const UserTable({super.key});
+
+  @override
+  State<UserTable> createState() => _UserTableState();
+}
+
+class _UserTableState extends State<UserTable> {
+  int? unitNum;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+      child: Column(
+        children: [
+          createTable(unitNum),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                width: 400,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black, width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Wrap(
+                          spacing: 5,
+                          runSpacing: 5,
+                          children: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 0;
+                                  });
+                                },
+                                child: Text('Казак')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 1;
+                                  });
+                                },
+                                child: Text('Потап')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 2;
+                                  });
+                                },
+                                child: Text('МСК офис')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 3;
+                                  });
+                                },
+                                child: Text('МСК склад')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 4;
+                                  });
+                                },
+                                child: Text('Владивосток')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 5;
+                                  });
+                                },
+                                child: Text('Хабаровск')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 6;
+                                  });
+                                },
+                                child: Text('Благовещенск')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 7;
+                                  });
+                                },
+                                child: Text('Дубай')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    unitNum = 8;
+                                  });
+                                },
+                                child: Text('Главная касса')),
+                          ],
+                        ))
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MainSlider extends StatelessWidget {
+  const MainSlider({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 150,
+      child: Container(
+        color: Colors.indigo,
+        child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: orderStatuses.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(10),
+                child: orderStatuses[index],
+              );
+            }),
+      ),
+    );
+  }
 }
