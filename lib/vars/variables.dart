@@ -9,12 +9,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 Map OrderInfoResp = {};
 Map token = {};
 List<Map> OrderInfoResult = [];
+Map<String, dynamic> CargosMap = {};
+List<Transits> CargosList = [];
 List<Map> statuses = [];
 List<Widget> orderStatuses = [];
 Map<String, dynamic> tempJsonMap = {};
-StreamController<int> orderNumStream = StreamController<int>();
+Map<String, dynamic> transJsonMap = {};
 CashDesks cashDesks = getDesksInfo(tempJsonMap);
 FlutterSecureStorage storage = FlutterSecureStorage();
+Map CargosTemp = {};
+List<Widget> TransitList = [];
 
 class StartVars {
 
@@ -38,8 +42,25 @@ class StartVars {
      statuses.add(OrderInfoResult[num]);
    }
    for (var num = 0; num < statuses.length; num++) {
-     orderStatuses.add(OrderStatus(num: num));
+     orderStatuses.add(OrderStatus(statusNum: num));
    }
+
+   CargosTemp = await postOrderInfo(
+       'admin',
+       'ugUYT76hjg',
+       RequestVar.getCargosListRequest(await SecureStorage.getValue('token'))
+   );
+   CargosMap = CargosTemp['result']['baggages'];
+   for(var j in CargosMap.values) {
+     CargosList.add(
+       getTransInfo(j as Map<String,dynamic>)
+     );
+   }
+  
+
+
+
+
  }
 }
 

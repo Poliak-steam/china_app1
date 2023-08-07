@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:china_app/generators/generate_widjet.dart';
 import 'package:china_app/vars/variables.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -33,10 +34,11 @@ class _MainScreenState extends State<MainScreen> {
         const MainSlider(),
 
         //TRANS STATUSES
-        StatusBlock(stream: orderNumStream.stream),
+        StatusBlock(),
 
         //USERS TABLE
-        UserTable(),
+        //UserTable(),
+
 
       ]),
     );

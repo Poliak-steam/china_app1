@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:china_app/networking/data_requests.dart';
-
 class RequestVar {
   static Map<String, String> getTokenRequest() {
     Map<String, String> tokenRequest = {
@@ -23,6 +20,7 @@ class RequestVar {
     Map<String, String> statusRequest = {
       'request': 'getClientIntransit',
       'token': '$token',
+      'codes': '817-AS'
     };
     return statusRequest;
   }

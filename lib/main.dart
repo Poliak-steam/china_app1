@@ -1,14 +1,12 @@
 import 'dart:ui';
-
-import 'package:china_app/vars/variables.dart';
 import 'package:flutter/material.dart';
 import 'Screens/MainScreen.dart';
+import 'Screens/authentif.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
-  await StartVars.getVars();
   runApp(MaterialApp(
     /* theme: ThemeData(
       primaryColor: Colors.indigoAccent
@@ -16,7 +14,8 @@ void main() async {
     debugShowCheckedModeBanner: false,
     initialRoute: '/',
     routes: {
-      '/': (context) => MainScreen(),
+      '/': (context) => Authentification(),
+      '/MainScreen': (context) => MainScreen()
     },
   ));
 }
