@@ -14,7 +14,7 @@ List<Map> statuses = [];
 List<Widget> orderStatuses = [];
 Map<String, dynamic> tempJsonMap = {};
 Map<String, dynamic> transJsonMap = {};
-FlutterSecureStorage storage = FlutterSecureStorage();
+FlutterSecureStorage storage = const FlutterSecureStorage();
 Map CargosTemp = {};
 List<Widget> TransitList = [];
 
@@ -35,7 +35,7 @@ class StartVars {
    OrderInfoResult = (OrderInfoResp["result"] as List).map((e) => e as Map).toList();
    for (var num = 0; num < OrderInfoResult.length; num++) {
      OrderInfoResult[num]['icon'] =
-         "http://master.crm.hl-group.ru" + OrderInfoResult[num]['svg'];
+         "http://master.crm.hl-group.ru${OrderInfoResult[num]['svg']}";
    }
 
    CargosTemp = await postOrderInfo(

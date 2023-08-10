@@ -5,7 +5,7 @@ import 'package:china_app/networking/request_vars.dart';
 
 Future<Map> postOrderInfo(user, psw, Map requestMap) async {
   String url = 'http://master.crm.hl-group.ru/api';
-  String basicAuth = 'Basic ' + base64.encode(utf8.encode('$user:$psw'));
+  String basicAuth = 'Basic ${base64.encode(utf8.encode('$user:$psw'))}';
   Map map;
 
   var response = await http.post(
