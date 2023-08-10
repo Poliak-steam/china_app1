@@ -8,14 +8,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
   runApp(MaterialApp(
-    /* theme: ThemeData(
-      primaryColor: Colors.indigoAccent
-  ),*/
+     theme: ThemeData(
+      primaryColor: const Color.fromARGB(255, 18, 31, 83),
+  ),
     debugShowCheckedModeBanner: false,
     initialRoute: '/',
     routes: {
       '/': (context) => Authentification(),
-      '/MainScreen': (context) => MainScreen()
+      '/MainScreen': (context) => MainScreen(),
     },
   ));
 }

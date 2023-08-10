@@ -3,7 +3,6 @@ import 'package:china_app/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:china_app/networking/data_requests.dart';
 import 'package:china_app/networking/request_vars.dart';
-import 'package:china_app/generators/generate_widjet.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 Map OrderInfoResp = {};
@@ -15,7 +14,6 @@ List<Map> statuses = [];
 List<Widget> orderStatuses = [];
 Map<String, dynamic> tempJsonMap = {};
 Map<String, dynamic> transJsonMap = {};
-CashDesks cashDesks = getDesksInfo(tempJsonMap);
 FlutterSecureStorage storage = FlutterSecureStorage();
 Map CargosTemp = {};
 List<Widget> TransitList = [];
@@ -23,7 +21,6 @@ List<Widget> TransitList = [];
 class StartVars {
 
  static Future getVars () async {
-   tempJsonMap = await getCashDesks();
    token = await postOrderInfo(
        'admin',
        'ugUYT76hjg',
@@ -37,12 +34,8 @@ class StartVars {
    );
    OrderInfoResult = (OrderInfoResp["result"] as List).map((e) => e as Map).toList();
    for (var num = 0; num < OrderInfoResult.length; num++) {
-     OrderInfoResult[num]['image'] =
+     OrderInfoResult[num]['icon'] =
          "http://master.crm.hl-group.ru" + OrderInfoResult[num]['svg'];
-     statuses.add(OrderInfoResult[num]);
-   }
-   for (var num = 0; num < statuses.length; num++) {
-     orderStatuses.add(OrderStatus(statusNum: num));
    }
 
    CargosTemp = await postOrderInfo(
