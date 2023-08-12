@@ -19,42 +19,45 @@ Map CargosTemp = {};
 List<Widget> TransitList = [];
 
 class StartVars {
+  static Future getVars() async {
+    token = await postOrderInfo(
+        'admin', 'ugUYT76hjg', RequestVar.getTokenRequest());
+    await SecureStorage.setValue(token["result"]);
+    OrderInfoResp = await postOrderInfo('admin', 'ugUYT76hjg',
+        RequestVar.getStatusRequest(await SecureStorage.getValue('token')));
+    OrderInfoResult =
+        (OrderInfoResp["result"] as List).map((e) => e as Map).toList();
+    for (var num = 0; num < OrderInfoResult.length; num++) {
+      OrderInfoResult[num]['icon'] =
+          "http://master.crm.hl-group.ru${OrderInfoResult[num]['svg']}";
+    }
 
- static Future getVars () async {
-   token = await postOrderInfo(
-       'admin',
-       'ugUYT76hjg',
-       RequestVar.getTokenRequest()
-   );
-   await SecureStorage.setValue(token["result"]);
-   OrderInfoResp = await postOrderInfo(
-       'admin',
-       'ugUYT76hjg',
-       RequestVar.getStatusRequest( await SecureStorage.getValue('token'))
-   );
-   OrderInfoResult = (OrderInfoResp["result"] as List).map((e) => e as Map).toList();
-   for (var num = 0; num < OrderInfoResult.length; num++) {
-     OrderInfoResult[num]['icon'] =
-         "http://master.crm.hl-group.ru${OrderInfoResult[num]['svg']}";
-   }
+    CargosTemp = await postOrderInfo('admin', 'ugUYT76hjg',
+        RequestVar.getCargosListRequest(await SecureStorage.getValue('token')));
+    CargosMap = CargosTemp['result']['baggages'];
 
-   CargosTemp = await postOrderInfo(
-       'admin',
-       'ugUYT76hjg',
-       RequestVar.getCargosListRequest(await SecureStorage.getValue('token'))
-   );
-   CargosMap = CargosTemp['result']['baggages'];
-   for(var j in CargosMap.values) {
-     CargosList.add(
-       getTransInfo(j as Map<String,dynamic>)
-     );
-   }
-  
+    Map<String, dynamic> cargosListByStatuses = {
+      "status_1": [],
+      "status_2": [],
+      "status_3": [],
+      "status_4": [],
+      "status_5": [],
+      "status_6": [],
+    };
 
+    for (var cargosMapItem in CargosMap.values) {
+      var mapKey = "status_${cargosMapItem['status_id'].toString()}";
 
+      if (!cargosListByStatuses.containsKey(mapKey)) {
+        continue;
+      }
 
+      // cargosListByStatuses[mapKey].add(getTransInfo(cargosMapItem as Map<String, dynamic>));
+      cargosListByStatuses[mapKey].add(cargosMapItem as Map<String, dynamic>);
+    }
 
- }
+    print(cargosListByStatuses["status_6"]);
+  }
 }
 
 Map<String, dynamic> colorList = {
