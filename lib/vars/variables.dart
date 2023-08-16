@@ -30,33 +30,36 @@ class StartVars {
     for (var num = 0; num < OrderInfoResult.length; num++) {
       OrderInfoResult[num]['icon'] =
           "http://master.crm.hl-group.ru${OrderInfoResult[num]['svg']}";
+      /*for(int j = 0; j < OrderInfoResult.length; j++ ) {
+        if (OrderInfoResult[num]['name'] == OrderInfoResult[j]['name']) {
+          OrderInfoResult.removeAt(j);
+        }
+      }*/
     }
 
     CargosTemp = await postOrderInfo('admin', 'ugUYT76hjg',
         RequestVar.getCargosListRequest(await SecureStorage.getValue('token')));
     CargosMap = CargosTemp['result']['baggages'];
 
-    Map<String, dynamic> cargosListByStatuses = {
-      "status_1": [],
-      "status_2": [],
-      "status_3": [],
-      "status_4": [],
-      "status_5": [],
-      "status_6": [],
-    };
+    for (var j in CargosMap.values) {
+      CargosList.add(getTransInfo(j as Map<String, dynamic>));
+    }
+    /*
+    Map<String, List<Transits>> cargosListByStatuses = {};
 
     for (var cargosMapItem in CargosMap.values) {
-      var mapKey = "status_${cargosMapItem['status_id'].toString()}";
+     var mapKey = "status_${cargosMapItem['status_id']}";
 
       if (!cargosListByStatuses.containsKey(mapKey)) {
-        continue;
+        cargosListByStatuses.addAll({mapKey:[]});
       }
 
-      // cargosListByStatuses[mapKey].add(getTransInfo(cargosMapItem as Map<String, dynamic>));
-      cargosListByStatuses[mapKey].add(cargosMapItem as Map<String, dynamic>);
+      cargosListByStatuses[mapKey].add(
+          getTransInfo(cargosMapItem) != null ? getTransInfo(cargosMapItem) : []
+      );
     }
 
-    print(cargosListByStatuses["status_6"]);
+    print(cargosListByStatuses["status_6"]);*/
   }
 }
 
@@ -68,4 +71,15 @@ Map<String, dynamic> colorList = {
   'badge-light-blue2': const Color.fromARGB(255, 138, 132, 148),
   'badge-light-blue3': const Color.fromARGB(255, 138, 132, 148),
   'badge-dark': const Color.fromARGB(255, 138, 132, 148),
+};
+
+Map<int, Color> StatusColor = {
+  0: Color.fromARGB(255, 255, 82, 102),
+  1: Color.fromARGB(255, 245, 202, 10),
+  2: Color.fromARGB(255, 0, 199, 211),
+  3: Color.fromARGB(255, 103, 76, 248),
+  4: Color.fromARGB(255, 0, 199, 211),
+  5: Color.fromARGB(255, 0, 199, 211),
+  6: Color.fromARGB(255, 25, 219, 146),
+  7: Color.fromARGB(255, 0, 199, 211),
 };

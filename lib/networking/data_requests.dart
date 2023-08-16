@@ -46,20 +46,28 @@ Transits getTransInfo(TransMap) {
 
 // СТРУКТУРА ДЛЯ ГРУЗОВ
 class Transits {
-  Transits(
-      {required this.batch,
-        required this.destination,
-      required this.numberClient,
-      required this.statusInfo});
+  Transits({
+    required this.batch,
+    required this.destination,
+    required this.numberClient,
+    required this.statusInfo,
+    required this.id,
+    required this.fullInfo,
+    required this.weight,
+    required this.dopSum,
+  });
+  final String id;
   final String? batch;
   final String destination;
   final String numberClient;
   final Map statusInfo;
+  final Map fullInfo;
+  final double dopSum;
+  final double weight;
 
   factory Transits.fromJson(Map<String, dynamic> JsonMap) {
-    final batch = (JsonMap['batch'] != null)
-        ? (JsonMap['batch']) as String
-        : 'no batch';
+    final batch =
+        (JsonMap['batch'] != null) ? (JsonMap['batch']) as String : 'no batch';
     final destination = (JsonMap['destination'] != null)
         ? (JsonMap['destination']) as String
         : 'no destination';
@@ -69,8 +77,20 @@ class Transits {
     final statusInfo = (JsonMap['status_info'] != null)
         ? (JsonMap['status_info']) as Map<String, dynamic>
         : {'status': 'nostatus'};
+    final id = JsonMap['id'];
+    final fullInfo = (JsonMap['full_info'] != null)
+        ? (JsonMap['full_info']) as Map<String, dynamic>
+        : {'info': 'no info'};
+    final weight =
+        (JsonMap['weight_b'] != null) ? (JsonMap['weight_b']) as double : 0.0;
+    final dopSum =
+    (JsonMap['dop_sum'] != null) ? (JsonMap['dop_sum']).toDouble() : 0.0;
 
     return Transits(
+      weight: weight,
+      fullInfo: fullInfo,
+      dopSum:dopSum,
+      id: id,
       batch: batch,
       destination: destination,
       numberClient: numberClient,

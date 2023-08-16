@@ -124,7 +124,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: ValueListenableBuilder<int>(
                             valueListenable: status,
                             builder: (context, status, child) {
-                              return createTransitTable(status, _searchText);
+                              return createTransitTable(status, _searchText, context);
                             }),
                       )
                     ],
