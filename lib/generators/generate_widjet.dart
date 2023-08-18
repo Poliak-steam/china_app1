@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:china_app/vars/variables.dart';
@@ -26,7 +25,7 @@ void addBaggages(List<Widget> List, int i, context) {
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         height: 95,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,16 +41,16 @@ void addBaggages(List<Widget> List, int i, context) {
                       size: 8,
                       color: StatusColor[CargosList[i].statusInfo['status_id']],
                     ),
-                    Padding(padding: EdgeInsets.only(right: 5)),
+                    const Padding(padding: EdgeInsets.only(right: 5)),
                     Text(
                       CargosList[i].statusInfo['status'],
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     )
                   ],
                 ),
                 Text(
                   CargosList[i].numberClient,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16, color: Color.fromARGB(255, 23, 38, 115)),
                 )
               ],
@@ -62,19 +61,19 @@ void addBaggages(List<Widget> List, int i, context) {
               children: [
                 Text(
                   CargosList[i].batch as String,
-                  style: TextStyle(color: Colors.grey),
+                  style: const TextStyle(color: Colors.grey),
                 ),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.airplanemode_active,
                       size: 20,
                       color: Colors.grey,
                     ),
-                    Padding(padding: EdgeInsets.only(right: 5)),
+                    const Padding(padding: EdgeInsets.only(right: 5)),
                     Text(
                       CargosList[i].destination,
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     )
                   ],
                 )
@@ -109,7 +108,7 @@ Widget createTransitTable(int status, String searchText, context) {
 
   if (baggagesWidgets.isEmpty) {
     return Container(
-      child: Center(
+      child: const Center(
         child: Text('there isnt any baggages'),
       ),
     );
@@ -145,7 +144,7 @@ Widget createSlider(whoActive) {
           color: activeColor,
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         width: 130,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -225,7 +224,7 @@ void showTransModal(String id, int i, context) {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.fromLTRB(20, 30, 20, 25),
+                padding: const EdgeInsets.fromLTRB(20, 30, 20, 25),
                 child: Row(
                   children: [
                     Container(
@@ -238,7 +237,8 @@ void showTransModal(String id, int i, context) {
                               borderRadius: BorderRadius.circular(12.0),
                             )),
                             backgroundColor: MaterialStateColor.resolveWith(
-                                (states) => Color.fromARGB(255, 23, 38, 115))),
+                                (states) =>
+                                    const Color.fromARGB(255, 23, 38, 115))),
                         child: const Image(
                             image: AssetImage('assets/img/back_arrow.png')),
                         onPressed: () {
@@ -246,7 +246,7 @@ void showTransModal(String id, int i, context) {
                         },
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 20)),
+                    const Padding(padding: EdgeInsets.only(left: 20)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -274,7 +274,7 @@ void showTransModal(String id, int i, context) {
                         topLeft: Radius.circular(20)),
                     color: Color.fromARGB(255, 238, 240, 244),
                   ),
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
                       const Row(
@@ -289,13 +289,13 @@ void showTransModal(String id, int i, context) {
                           )
                         ],
                       ),
-                      Padding(padding: EdgeInsets.only(bottom: 10)),
+                      const Padding(padding: EdgeInsets.only(bottom: 10)),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                         ),
-                        padding: EdgeInsets.all(13),
+                        padding: const EdgeInsets.all(13),
                         height: 120,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -303,40 +303,40 @@ void showTransModal(String id, int i, context) {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      const Image(
-                                          image: AssetImage(
-                                              'assets/img/status.png')),
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 10)),
-                                      Container(
-                                        width: 200,
-                                        child: Text(
-                                          '${CargosList[i].statusInfo['status']}'
-                                              .toCapitalized(),
-                                          style: const TextStyle(
-                                            height: 1,
-                                            color: Color.fromARGB(
-                                              255,
-                                              22,
-                                              36,
-                                              104,
-                                            ),
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Image(
+                                        image: AssetImage(
+                                            'assets/img/status.png')),
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 10)),
+                                    Container(
+                                      width: 200,
+                                      child: Text(
+                                        '${CargosList[i].statusInfo['status']}'
+                                            .toCapitalized(),
+                                        style: const TextStyle(
+                                          height: 1,
+                                          color: Color.fromARGB(
+                                            255,
+                                            22,
+                                            36,
+                                            104,
                                           ),
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(padding: EdgeInsets.only(left: 10)),
-                                 Icon(
+                                const Padding(
+                                    padding: EdgeInsets.only(left: 10)),
+                                Icon(
                                   Icons.circle,
-                                  color: StatusColor[CargosList[i].statusInfo['status_id']],
+                                  color: StatusColor[
+                                      CargosList[i].statusInfo['status_id']],
                                   size: 8,
                                 )
                               ],
@@ -344,15 +344,20 @@ void showTransModal(String id, int i, context) {
                             Row(
                               children: [
                                 Text(
-                                  'data',
-                                  style: TextStyle(color: Colors.grey),
+                                  '${CargosList[i].statusInfo['date']}'
+                                      .substring(
+                                          0,
+                                          CargosList[i]
+                                              .statusInfo['date']
+                                              .indexOf(' ')),
+                                  style: const TextStyle(color: Colors.grey),
                                 ),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      Padding(padding: EdgeInsets.only(bottom: 10)),
+                      const Padding(padding: EdgeInsets.only(bottom: 10)),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -364,162 +369,259 @@ void showTransModal(String id, int i, context) {
                           children: [
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.airplanemode_active,
                                   size: 20,
                                   color: Colors.grey,
                                 ),
-                                Padding(padding: EdgeInsets.only(left: 10)),
+                                const Padding(
+                                    padding: EdgeInsets.only(left: 10)),
                                 Text(
                                   CargosList[i].destination,
-                                  style: TextStyle(color: Colors.grey),
+                                  style: const TextStyle(color: Colors.grey),
                                 )
                               ],
                             ),
                             Text(
                               CargosList[i].batch as String,
-                              style: TextStyle(color: Colors.grey),
+                              style: const TextStyle(color: Colors.grey),
                             )
                           ],
                         ),
                       ),
-                      Padding(padding: EdgeInsets.only(bottom: 10)),
+                      const Padding(padding: EdgeInsets.only(bottom: 10)),
                       Expanded(
                         child: OverflowBox(
                           maxWidth: MediaQuery.of(context).size.width,
                           child: SingleChildScrollView(
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(20),
                                     topRight: Radius.circular(20)),
                                 color: Colors.white,
                               ),
-                              padding: EdgeInsets.all(33),
+                              padding: const EdgeInsets.all(33),
                               child: Column(
                                 children: [
-                                   Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Количество мест',style: TextStyle(color: Colors.grey),),
-                                          Text('${CargosList[i].fullInfo['count_places']}',style: TextStyle(color: Color.fromARGB(255, 21, 35, 99),),),
+                                          const Text(
+                                            'Количество мест',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '${CargosList[i].fullInfo['count_places']}',
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 21, 35, 99),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                     const Padding(padding: EdgeInsets.only(bottom: 13)),
-                                     const DottedLine(
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
+                                      const DottedLine(
                                         dashColor: Colors.grey,
                                         dashLength: 2,
                                         dashRadius: 1,
                                       ),
-                                      const Padding(padding: EdgeInsets.only(bottom: 13)),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
                                       //second
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Вес',style: TextStyle(color: Colors.grey),),
-                                          Text('${CargosList[i].weight.toStringAsFixed(2)} кг',style: TextStyle(color: Color.fromARGB(255, 21, 35, 99),),),
+                                          const Text(
+                                            'Вес',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '${CargosList[i].weight.toStringAsFixed(2)} кг',
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 21, 35, 99),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      Padding(padding: EdgeInsets.only(bottom: 13)),
-                                      DottedLine(
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
+                                      const DottedLine(
                                         dashColor: Colors.grey,
                                         dashLength: 2,
                                         dashRadius: 1,
                                       ),
-                                      Padding(padding: EdgeInsets.only(bottom: 13)),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
                                       //third
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Объем',style: TextStyle(color: Colors.grey),),
-                                          Text('${CargosList[i].fullInfo['volume']} м3',style: TextStyle(color: Color.fromARGB(255, 21, 35, 99),),),
+                                          const Text(
+                                            'Объем',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '${CargosList[i].fullInfo['volume']} м\xB3',
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 21, 35, 99),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      const Padding(padding: EdgeInsets.only(bottom: 13)),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
                                       const DottedLine(
                                         dashColor: Colors.grey,
                                         dashLength: 2,
                                         dashRadius: 1,
                                       ),
-                                      const Padding(padding: EdgeInsets.only(bottom: 13)),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
                                       //fourth
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Плотность',style: TextStyle(color: Colors.grey),),
-                                          Text('${CargosList[i].fullInfo['density']} кг/м3',style: TextStyle(color: Color.fromARGB(255, 21, 35, 99),),),
+                                          const Text(
+                                            'Плотность',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '${CargosList[i].fullInfo['density']} кг/\xB3',
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 21, 35, 99),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      const Padding(padding: EdgeInsets.only(bottom: 13)),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
                                       const DottedLine(
                                         dashColor: Colors.grey,
                                         dashLength: 2,
                                         dashRadius: 1,
                                       ),
-                                      Padding(padding: EdgeInsets.only(bottom: 13)),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
                                       //fifth
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Курс',style: TextStyle(color: Colors.grey),),
-                                          Text('72',style: TextStyle(color: Color.fromARGB(255, 21, 35, 99),),),
+                                          Text(
+                                            'Курс',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '92 \u20BD',
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 21, 35, 99),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      Padding(padding: EdgeInsets.only(bottom: 13)),
-                                      DottedLine(
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
+                                      const DottedLine(
                                         dashColor: Colors.grey,
                                         dashLength: 2,
                                         dashRadius: 1,
                                       ),
-                                      Padding(padding: EdgeInsets.only(bottom: 13)),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
                                       //sixth
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Доп. расходы',style: TextStyle(color: Colors.grey),),
-                                          Text('${CargosList[i].dopSum} P',style: TextStyle(color: Color.fromARGB(255, 21, 35, 99),),),
+                                          const Text(
+                                            'Доп. расходы',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '${CargosList[i].dopSum} \u20BD',
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 21, 35, 99),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      Padding(padding: EdgeInsets.only(bottom: 13)),
-                                      DottedLine(
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
+                                      const DottedLine(
                                         dashColor: Colors.grey,
                                         dashLength: 2,
                                         dashRadius: 1,
                                       ),
-                                      Padding(padding: EdgeInsets.only(bottom: 13)),
-
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 13)),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor: MaterialStateColor.resolveWith((states) => Color.fromARGB(255,21,35,99)),
-                                          minimumSize: MaterialStateProperty.resolveWith((states) => Size(130, 50)),
-                                          shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(12.0),
-                                          )),
-                                        ),
-                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateColor.resolveWith(
+                                                    (states) =>
+                                                        const Color.fromARGB(
+                                                            255, 21, 35, 99)),
+                                            minimumSize: MaterialStateProperty
+                                                .resolveWith(
+                                                    (states) => Size(130, 50)),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            )),
+                                          ),
+                                          onPressed: () {
+                                            showDocsModal(id, i, context);
+                                          },
                                           child: Text('Документы')),
-                                      Padding(
+                                      const Padding(
                                           padding: EdgeInsets.only(left: 15)),
                                       ElevatedButton(
                                           style: ButtonStyle(
-                                            backgroundColor: MaterialStateColor.resolveWith((states) => Color.fromARGB(255,81,114,251)),
-                                            minimumSize: MaterialStateProperty.resolveWith((states) => Size(130, 50)),
+                                            backgroundColor:
+                                                MaterialStateColor.resolveWith(
+                                                    (states) =>
+                                                        const Color.fromARGB(
+                                                            255, 81, 114, 251)),
+                                            minimumSize: MaterialStateProperty
+                                                .resolveWith(
+                                                    (states) => Size(130, 50)),
                                             shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(12.0),
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
                                             )),
                                           ),
                                           onPressed: () {},
-                                          child: Text('Расчетки')),
+                                          child: const Text('Расчетки')),
                                     ],
                                   )
                                 ],
@@ -528,6 +630,201 @@ void showTransModal(String id, int i, context) {
                           ),
                         ),
                       )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }));
+}
+
+class Menu extends StatelessWidget {
+  const Menu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          const DrawerHeader(
+            margin: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            child: Center(
+              child: UserAccountsDrawerHeader(
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 22, 36, 104)),
+                  accountName: Text('Name Surname'),
+                  accountEmail: Text("NameSurname@highway.group"),
+                  currentAccountPicture:
+                      Image(image: AssetImage('assets/img/account.png'))),
+            ),
+          ),
+          ListTile(
+              title: const Text("Заказы"),
+              leading: const Icon(
+                Icons.widgets,
+                color: Color.fromARGB(255, 22, 36, 104),
+              ),
+              onTap: () {}),
+          ListTile(
+              title: const Text("Выйти"),
+              leading: const Icon(Icons.logout,
+                  color: Color.fromARGB(255, 22, 36, 104)),
+              onTap: () {}),
+        ],
+      ),
+    );
+  }
+}
+
+void showNotify(context) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          height: MediaQuery.sizeOf(context).height,
+          color: const Color.fromARGB(255, 22, 36, 104),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 30, 20, 25),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            )),
+                            backgroundColor: MaterialStateColor.resolveWith(
+                                (states) =>
+                                    const Color.fromARGB(255, 23, 38, 115))),
+                        child: const Image(
+                            image: AssetImage('assets/img/back_arrow.png')),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.only(left: 20)),
+                    const Text(
+                      'Уведомления',
+                      style: TextStyle(color: Colors.white, fontSize: 24),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20)),
+                    color: Color.fromARGB(255, 238, 240, 244),
+                  ),
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [Container()],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }));
+}
+
+void showDocsModal(String id, int i, context) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          height: MediaQuery.sizeOf(context).height,
+          color: const Color.fromARGB(255, 22, 36, 104),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 30, 20, 25),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            )),
+                            backgroundColor: MaterialStateColor.resolveWith(
+                                (states) =>
+                                    const Color.fromARGB(255, 23, 38, 115))),
+                        child: const Image(
+                            image: AssetImage('assets/img/back_arrow.png')),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.only(left: 20)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Артикул',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 82, 114, 251),
+                            fontSize: 11,
+                          ),
+                        ),
+                        Text(
+                          CargosList[i].numberClient,
+                          style: const TextStyle(color: Colors.white),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20)),
+                    color: Color.fromARGB(255, 238, 240, 244),
+                  ),
+                  padding: const EdgeInsets.all(35),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Image(image: AssetImage('assets/img/docs.png')),
+                          Padding(padding: EdgeInsets.only(right: 15)),
+                          Expanded(
+                            child: Text(
+                              CargosList[i].docs['name'],
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 21, 35, 99)),
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 6)),
+                      const DottedLine(
+                        dashColor: Colors.grey,
+                        dashLength: 2,
+                        dashRadius: 1,
+                      ),
                     ],
                   ),
                 ),

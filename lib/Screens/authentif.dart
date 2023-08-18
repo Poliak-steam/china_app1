@@ -14,22 +14,6 @@ class _AuthentificationState extends State<Authentification> {
   final emailController = TextEditingController();
   final pasController = TextEditingController();
 
-  Widget _createWelcome(bool state) {
-    if (state == false) {
-      return const Expanded(
-        flex: 2,
-        child: Text(
-          'Добро пожаловать!',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-      );
-    } else
-      return Container();
-  }
   Widget createLogoText (state) {
     if (state == false) {
       return const Column(
@@ -95,7 +79,6 @@ class _AuthentificationState extends State<Authentification> {
               ],
             ),
           ),
-          _createWelcome(isFocus),
           Expanded(
             flex: 6,
             child: Column(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:china_app/generators/generate_widjet.dart';
-import '../generators/pop_up.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,40 +14,23 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 18, 31, 83),
-      drawer: Drawer(
-        child: ListView(
-          children: const <Widget>[
-            ListTile(
-              title: Text("Меню 1"),
-              trailing: Icon(Icons.arrow_back),
-            ),
-            ListTile(
-              title: Text("Меню 2"),
-              trailing: Icon(Icons.arrow_downward),
-            ),
-          ],
-        ),
-      ),
+      drawer: Menu(),
       //APP BAR
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 18, 31, 83),
+        backgroundColor: const Color.fromARGB(255, 20, 34, 100),
         title: const Text('Статус заказа'),
         actions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [showNotifyPop(context)],
-            icon: const Image(image: AssetImage('assets/img/ring.png')),
-            offset: const Offset(-20, 0),
-            color: Colors.white,
-            elevation: 2,
-            position: PopupMenuPosition.under,
-          ),
-          PopupMenuButton(
-            itemBuilder: (context) => [showFilterPop(context)],
+          IconButton(
+            onPressed: () {
+              showNotify(context);
+            },
             icon: const Image(image: AssetImage('assets/img/sort.png')),
-            offset: Offset(-20, 0),
-            color: Colors.white,
-            elevation: 2,
-            position: PopupMenuPosition.under,
+          ),
+          IconButton(
+            onPressed: () {
+              showNotify(context);
+            },
+            icon: const Image(image: AssetImage('assets/img/ring.png')),
           ),
         ],
       ),
@@ -124,7 +106,8 @@ class _MainScreenState extends State<MainScreen> {
                         child: ValueListenableBuilder<int>(
                             valueListenable: status,
                             builder: (context, status, child) {
-                              return createTransitTable(status, _searchText, context);
+                              return createTransitTable(
+                                  status, _searchText, context);
                             }),
                       )
                     ],
