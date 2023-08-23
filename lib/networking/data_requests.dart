@@ -1,4 +1,5 @@
 import 'package:china_app/storage/secure_storage.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:china_app/networking/request_vars.dart';
@@ -55,18 +56,15 @@ class Transits {
     required this.fullInfo,
     required this.weight,
     required this.dopSum,
-    required this.docs,
   });
   final String id;
   final String? batch;
   final String destination;
   final String numberClient;
   final Map statusInfo;
-  final Map fullInfo;
-  final Map docs;
+  final FullInfo fullInfo;
   final double dopSum;
   final double weight;
-
 
   factory Transits.fromJson(Map<String, dynamic> JsonMap) {
     final batch =
@@ -82,26 +80,67 @@ class Transits {
         : {'status': 'nostatus'};
     final id = JsonMap['id'];
     final fullInfo = (JsonMap['full_info'] != null)
-        ? (JsonMap['full_info']) as Map<String, dynamic>
-        : {'info': 'no info'};
-    final docs = (JsonMap['account_document'] != null)
-        ? (JsonMap['account_document']) as Map<String, dynamic>
-        : {'name': '0'};
+        ? (FullInfo.fromJson(JsonMap['full_info']))
+        : FullInfo.fromJson({'info': 'noInfo'} as Map<String, dynamic>);
     final weight =
         (JsonMap['weight_b'] != null) ? (JsonMap['weight_b']) as double : 0.0;
     final dopSum =
-    (JsonMap['dop_sum'] != null) ? (JsonMap['dop_sum']).toDouble() : 0.0;
+        (JsonMap['dop_sum'] != null) ? (JsonMap['dop_sum']).toDouble() : 0.0;
 
     return Transits(
-      docs:docs,
       weight: weight,
       fullInfo: fullInfo,
-      dopSum:dopSum,
+      dopSum: dopSum,
       id: id,
       batch: batch,
       destination: destination,
       numberClient: numberClient,
       statusInfo: statusInfo,
     );
+  }
+}
+
+class FullInfo {
+  FullInfo({
+    required this.countPlaces,
+    required this.volume,
+    required this.density,
+    required this.docs,
+  });
+  final int countPlaces;
+  final String volume;
+  final double density;
+  final Map docs;
+
+  factory FullInfo.fromJson(Map<String, dynamic> JsonMap) {
+    final countPlaces = (JsonMap['count_places'] != null)
+        ? (JsonMap['count_places']) as int
+        : 0;
+    final volume =
+        (JsonMap['volume'] != null) ? (JsonMap['volume']) as String : '0.0';
+    final density =
+        (JsonMap['density'] != null) ? (JsonMap['density']) as double : 0.0;
+    final docs = ((JsonMap['account_document'] != null) &&
+            (JsonMap['account_document'] != ''))
+        ? (JsonMap['account_document']) as Map<String, dynamic>
+        : {'name': 'no file'};
+    ;
+
+    return FullInfo(
+      docs: docs,
+      countPlaces: countPlaces,
+      volume: volume,
+      density: density,
+    );
+  }
+}
+
+Future<bool> isConnected() async {
+  var currentConn = await Connectivity().checkConnectivity();
+  if (currentConn == ConnectivityResult.wifi ||
+      currentConn == ConnectivityResult.mobile) {
+    return true;
+  } else {
+    return false;
   }
 }

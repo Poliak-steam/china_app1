@@ -1,5 +1,55 @@
 import 'package:flutter/material.dart';
 import '../vars/variables.dart';
+import 'package:china_app/networking/data_requests.dart';
+
+class ConnectionState extends StatefulWidget {
+  const ConnectionState({super.key});
+
+  @override
+  State<StatefulWidget> createState() => ConnectionStateState();
+}
+
+class ConnectionStateState extends State<ConnectionState>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<Offset> position;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 750));
+    position = Tween<Offset>(begin: const Offset(0.0, -4.0), end: Offset.zero)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.linear));
+
+    controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SlideTransition(
+          position: position,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            height: 40,
+            color: const Color.fromARGB(100, 47, 47, 47),
+            child: const FittedBox(
+              child: Text(
+                'No internet connection',
+                style: TextStyle(
+                    color: Colors.white, decoration: TextDecoration.none),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class Authentification extends StatefulWidget {
   const Authentification({super.key});
@@ -9,30 +59,12 @@ class Authentification extends StatefulWidget {
 }
 
 class _AuthentificationState extends State<Authentification> {
-  final int state = 0;
   bool isFocus = false;
   final emailController = TextEditingController();
   final pasController = TextEditingController();
-
-  Widget createLogoText (state) {
-    if (state == false) {
-      return const Column(
-        children: [
-          Text(
-            'HIGHWAY',
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 28),
-          ),
-          Text(
-            'logistic group',
-            style: TextStyle(color: Colors.white),
-          )
-        ],
-      );
-    } else return Container();
-  }
+  final _overlayEntry = OverlayEntry(builder: (BuildContext context) {
+    return const ConnectionState();
+  });
 
   void _loadScreenOpen() {
     Navigator.of(context)
@@ -65,167 +97,128 @@ class _AuthentificationState extends State<Authentification> {
               Color.fromARGB(255, 18, 31, 83)
             ]),
       ),
-      padding: EdgeInsets.only(top: 70),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Expanded(
-            flex: 5,
-            child: Column(
-              children: [
-                Image(image: AssetImage('assets/img/logo.png')),
-                Padding(padding: EdgeInsets.only(bottom: 20)),
-                createLogoText(isFocus)
-              ],
-            ),
+          const Column(
+            children: [
+              Image(image: AssetImage('assets/img/logo.png')),
+              Padding(padding: EdgeInsets.only(bottom: 20)),
+              Text(
+                'HIGHWAY',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28),
+              ),
+              Text(
+                'logistic group',
+                style: TextStyle(color: Colors.white),
+              )
+            ],
           ),
-          Expanded(
-            flex: 6,
-            child: Column(
-              children: [
-                Container(
-                  height: 45,
-                  width: 280,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'E-MAIL',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 10)),
-                      Expanded(
-                        child: FocusScope(
-                          child: Focus(
-                            onFocusChange: (focus) {
-                              setState(() {
-                                isFocus = focus;
-                              });
-                            },
-                            child: TextField(
-                              onTapOutside: (event) {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                              },
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                              controller: emailController,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+          Column(
+            children: [
+              Container(
+                height: 45,
+                width: 280,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 10)),
-                Container(
-                  height: 45,
-                  width: 280,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'ПАРОЛЬ',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 10)),
-                      Expanded(
-                        child: FocusScope(
-                          child: Focus(
-                            onFocusChange: (focus) {
-                              setState(() {
-                                isFocus = focus;
-                              });
-                            },
-                            child: TextField(
-                              onTapOutside: (event) {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                              },
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                              controller: pasController,
-                            ),
-                          ),
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    const Text(
+                      'E-MAIL',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const Padding(padding: EdgeInsets.only(right: 10)),
+                    Expanded(
+                      child: TextField(
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
                         ),
+                        controller: emailController,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 10)),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 82, 114, 251),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        )),
-                    onPressed: () async {
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: 10)),
+              Container(
+                height: 45,
+                width: 280,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    const Text(
+                      'ПАРОЛЬ',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const Padding(padding: EdgeInsets.only(right: 10)),
+                    Expanded(
+                      child: TextField(
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        controller: pasController,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: 10)),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 82, 114, 251),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      )),
+                  onPressed: () async {
+                    if (!(await isConnected())) {
+                       Navigator.of(context).overlay?.insert(_overlayEntry);
+                      Future.delayed(const Duration(seconds: 10), () {
+                        _overlayEntry.remove();
+                      });
+                    } else {
                       _loadScreenOpen();
                       await StartVars.getVars();
                       Navigator.pushReplacementNamed(context, '/MainScreen');
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 250,
-                      height: 45,
-                      child: Text(
-                        'Войти',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                    }
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 250,
+                    height: 45,
+                    child: const Text(
+                      'Войти',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
-                    )),
-              ],
-            ),
+                    ),
+                  )),
+            ],
           ),
-          Expanded(
-              flex: 1,
-              child: Text(
-                'Забыли пароль?',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 82, 114, 251),
-                  decoration: TextDecoration.underline,
-                ),
-              ))
+          const Text(
+            'Забыли пароль?',
+            style: TextStyle(
+              color: Color.fromARGB(255, 82, 114, 251),
+              decoration: TextDecoration.underline,
+            ),
+          )
         ],
       ),
     ));
   }
 }
-
-/*if(
-            PasController.text == 'Vjnbdfwbz21' &&
-                LogController.text == 'tech@freelancers-blag.ru'
-            ) {
-              await StartVars.getVars();
-              Navigator.pushReplacementNamed(context, '/MainScreen');
-            } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('WFT man? are u forgot the password? haha lol'),
-                    actions: [
-                      Center(
-                        child: ElevatedButton(
-                          child: Text('Try Again)'),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      )
-                    ],
-                  );
-                },
-              );
-              LogController.clear();
-              PasController.clear();
-            }*/

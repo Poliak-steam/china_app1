@@ -3,20 +3,14 @@ import 'package:china_app/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:china_app/networking/data_requests.dart';
 import 'package:china_app/networking/request_vars.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-Map OrderInfoResp = {};
+
 Map token = {};
+Map OrderInfoResp = {};
 List<Map> OrderInfoResult = [];
+Map CargosResp = {};
 Map<String, dynamic> CargosMap = {};
 List<Transits> CargosList = [];
-List<Map> statuses = [];
-List<Widget> orderStatuses = [];
-Map<String, dynamic> tempJsonMap = {};
-Map<String, dynamic> transJsonMap = {};
-FlutterSecureStorage storage = const FlutterSecureStorage();
-Map CargosTemp = {};
-List<Widget> TransitList = [];
 
 class StartVars {
   static Future getVars() async {
@@ -30,36 +24,17 @@ class StartVars {
     for (var num = 0; num < OrderInfoResult.length; num++) {
       OrderInfoResult[num]['icon'] =
           "http://master.crm.hl-group.ru${OrderInfoResult[num]['svg']}";
-      /*for(int j = 0; j < OrderInfoResult.length; j++ ) {
-        if (OrderInfoResult[num]['name'] == OrderInfoResult[j]['name']) {
-          OrderInfoResult.removeAt(j);
-        }
-      }*/
+
     }
 
-    CargosTemp = await postOrderInfo('admin', 'ugUYT76hjg',
+    CargosResp = await postOrderInfo('admin', 'ugUYT76hjg',
         RequestVar.getCargosListRequest(await SecureStorage.getValue('token')));
-    CargosMap = CargosTemp['result']['baggages'];
+    CargosMap = CargosResp['result']['baggages'];
 
     for (var j in CargosMap.values) {
       CargosList.add(getTransInfo(j as Map<String, dynamic>));
     }
-    /*
-    Map<String, List<Transits>> cargosListByStatuses = {};
 
-    for (var cargosMapItem in CargosMap.values) {
-     var mapKey = "status_${cargosMapItem['status_id']}";
-
-      if (!cargosListByStatuses.containsKey(mapKey)) {
-        cargosListByStatuses.addAll({mapKey:[]});
-      }
-
-      cargosListByStatuses[mapKey].add(
-          getTransInfo(cargosMapItem) != null ? getTransInfo(cargosMapItem) : []
-      );
-    }
-
-    print(cargosListByStatuses["status_6"]);*/
   }
 }
 

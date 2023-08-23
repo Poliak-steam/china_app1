@@ -1,4 +1,5 @@
-import 'package:china_app/vars/variables.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+FlutterSecureStorage storage = const FlutterSecureStorage();
 
 class SecureStorage {
 

@@ -8,9 +8,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
   runApp(MaterialApp(
-     theme: ThemeData(
-      primaryColor: const Color.fromARGB(255, 18, 31, 83),
-  ),
     debugShowCheckedModeBanner: false,
     initialRoute: '/',
     routes: {
