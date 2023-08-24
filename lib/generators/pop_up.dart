@@ -520,21 +520,15 @@ void showDocsModal(String id, int i, context) {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        print('tap');
-
-                        if (false)
-                        {
-                          FileDownloader.downloadFile(
-                              url:
-                                  'https://zaochnik.ru/uploads/2019/10/17/primer-kursovoy-raboty.doc',
-                              onDownloadCompleted: (String path) {
-                                print('FILE DOWNLOADED TO PATH: $path');
-                              },
-                              onDownloadError: (String error) {
-                                print('DOWNLOAD ERROR: $error');
-                              });
-                        }
-                        print('tap');
+                        FileDownloader.downloadFile(
+                            url:
+                                'https://zaochnik.ru/uploads/2019/10/17/primer-kursovoy-raboty.doc',
+                            onDownloadCompleted: (String path) {
+                              print('FILE DOWNLOADED TO PATH: $path');
+                            },
+                            onDownloadError: (String error) {
+                              print('DOWNLOAD ERROR: $error');
+                            });
                       },
                       child: Row(
                         children: [

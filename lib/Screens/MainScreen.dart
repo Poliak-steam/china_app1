@@ -1,3 +1,4 @@
+import 'package:china_app/notifications/notify.dart';
 import 'package:flutter/material.dart';
 import 'package:china_app/generators/generate_widjet.dart';
 
@@ -12,6 +13,16 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final searchController = TextEditingController();
   String _searchText = '';
+
+  late final LocalNotificationService service;
+
+  @override
+  void initState() {
+    service = LocalNotificationService();
+    service.initialize();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +35,8 @@ class _MainScreenState extends State<MainScreen> {
         title: const Text('Статус заказа'),
         actions: [
           IconButton(
-            onPressed: () {
-              showNotify(context);
+            onPressed: () async {
+              await service.showNotification(id:0,title: 'here we go',body: 'some message');
             },
             icon: const Image(image: AssetImage('assets/img/sort.png')),
           ),

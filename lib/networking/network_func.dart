@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:china_app/networking/request_vars.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+
 
 Future<bool> isConnected() async {
   var currentConn = await Connectivity().checkConnectivity();
