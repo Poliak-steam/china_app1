@@ -24,4 +24,11 @@ class RequestVar {
     };
     return statusRequest;
   }
+  static Map<String, String> getTest() {
+    Map<String, String> statusRequest = {
+      'request': 'tes'
+    };
+    return statusRequest;
+  }
 }
+

@@ -1,7 +1,10 @@
 import 'package:china_app/functions/string_functions.dart';
+import 'package:china_app/grants/grant_storage.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import '../vars/variables.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void showTransModal(String id, int i, context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
@@ -354,7 +357,8 @@ void showTransModal(String id, int i, context) {
                                                           255, 21, 35, 99)),
                                           minimumSize:
                                               MaterialStateProperty.resolveWith(
-                                                  (states) => const Size(130, 50)),
+                                                  (states) =>
+                                                      const Size(130, 50)),
                                           shape: MaterialStateProperty.all<
                                                   RoundedRectangleBorder>(
                                               RoundedRectangleBorder(
@@ -377,7 +381,8 @@ void showTransModal(String id, int i, context) {
                                                           255, 81, 114, 251)),
                                           minimumSize:
                                               MaterialStateProperty.resolveWith(
-                                                  (states) => const Size(130, 50)),
+                                                  (states) =>
+                                                      const Size(130, 50)),
                                           shape: MaterialStateProperty.all<
                                                   RoundedRectangleBorder>(
                                               RoundedRectangleBorder(
@@ -513,18 +518,37 @@ void showDocsModal(String id, int i, context) {
                 padding: const EdgeInsets.all(35),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                       const  Image(image: AssetImage('assets/img/docs.png')),
-                        const Padding(padding: EdgeInsets.only(right: 15)),
-                        Expanded(
-                          child: Text(
-                            CargosList[i].fullInfo.docs['name'],
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 21, 35, 99)),
-                          ),
-                        )
-                      ],
+                    GestureDetector(
+                      onTap: () async {
+                        print('tap');
+
+                        if (false)
+                        {
+                          FileDownloader.downloadFile(
+                              url:
+                                  'https://zaochnik.ru/uploads/2019/10/17/primer-kursovoy-raboty.doc',
+                              onDownloadCompleted: (String path) {
+                                print('FILE DOWNLOADED TO PATH: $path');
+                              },
+                              onDownloadError: (String error) {
+                                print('DOWNLOAD ERROR: $error');
+                              });
+                        }
+                        print('tap');
+                      },
+                      child: Row(
+                        children: [
+                          const Image(image: AssetImage('assets/img/docs.png')),
+                          const Padding(padding: EdgeInsets.only(right: 15)),
+                          Expanded(
+                            child: Text(
+                              CargosList[i].fullInfo.docs['name'],
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 21, 35, 99)),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 6)),
                     const DottedLine(
@@ -559,8 +583,8 @@ class Menu extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: Center(
               child: UserAccountsDrawerHeader(
-                  decoration:  BoxDecoration(
-                      color: Color.fromARGB(255, 22, 36, 104)),
+                  decoration:
+                      BoxDecoration(color: Color.fromARGB(255, 22, 36, 104)),
                   accountName: Text('Name Surname'),
                   accountEmail: Text("NameSurname@highway.group"),
                   currentAccountPicture:

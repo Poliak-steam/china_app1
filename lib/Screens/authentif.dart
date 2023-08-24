@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../networking/network_func.dart';
 import '../vars/variables.dart';
-import 'package:china_app/networking/data_requests.dart';
 
 class ConnectionState extends StatefulWidget {
-  const ConnectionState({super.key});
+  const ConnectionState({Key? key, required this.text}) : super(key: key);
+  final String text;
 
   @override
   State<StatefulWidget> createState() => ConnectionStateState();
@@ -37,9 +39,9 @@ class ConnectionStateState extends State<ConnectionState>
             padding: const EdgeInsets.symmetric(horizontal: 30),
             height: 40,
             color: const Color.fromARGB(100, 47, 47, 47),
-            child: const FittedBox(
+            child:  FittedBox(
               child: Text(
-                'No internet connection',
+                widget.text,
                 style: TextStyle(
                     color: Colors.white, decoration: TextDecoration.none),
               ),
@@ -59,12 +61,9 @@ class Authentification extends StatefulWidget {
 }
 
 class _AuthentificationState extends State<Authentification> {
-  bool isFocus = false;
   final emailController = TextEditingController();
   final pasController = TextEditingController();
-  final _overlayEntry = OverlayEntry(builder: (BuildContext context) {
-    return const ConnectionState();
-  });
+  var _overlayEntry ;
 
   void _loadScreenOpen() {
     Navigator.of(context)
@@ -187,14 +186,29 @@ class _AuthentificationState extends State<Authentification> {
                       )),
                   onPressed: () async {
                     if (!(await isConnected())) {
-                       Navigator.of(context).overlay?.insert(_overlayEntry);
+                      _overlayEntry = OverlayEntry(builder: (BuildContext context) {
+                        return const ConnectionState(text: 'No internet connection',);
+                      });
+                      Navigator.of(context).overlay?.insert(_overlayEntry);
                       Future.delayed(const Duration(seconds: 10), () {
                         _overlayEntry.remove();
                       });
                     } else {
-                      _loadScreenOpen();
-                      await StartVars.getVars();
-                      Navigator.pushReplacementNamed(context, '/MainScreen');
+                      if (await isApiConnected()) {
+                        var result = await Permission.storage.request();
+                        print(result);
+                        _loadScreenOpen();
+                        await StartVars.getVars();
+                        Navigator.pushReplacementNamed(context, '/MainScreen');
+                      } else {
+                        _overlayEntry = OverlayEntry(builder: (BuildContext context) {
+                          return const ConnectionState(text: 'cant connect to server',);
+                        });
+                        Navigator.of(context).overlay?.insert(_overlayEntry);
+                        Future.delayed(const Duration(seconds: 10), () {
+                          _overlayEntry.remove();
+                        });
+                      }
                     }
                   },
                   child: Container(
