@@ -99,7 +99,7 @@ Widget createTransitTable(int statusIndex, String searchText, context) {
   final count = CargosList.length - 1;
   if (searchText != '') {
     for (int i = 0; i < count; i++) {
-      if (CargosList[i].numberClient.startsWith(searchText)) {
+      if (CargosList[i].numberClient.contains(searchText.toUpperCase())) {
         addBaggages(baggagesWidgets, i, context);
       }
     }

@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:china_app/notifications/notify.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:china_app/generators/generate_widjet.dart';
 
@@ -13,6 +17,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final searchController = TextEditingController();
   String _searchText = '';
+  late Timer timer;
 
   late final LocalNotificationService service;
 
@@ -21,10 +26,28 @@ class _MainScreenState extends State<MainScreen> {
     service = LocalNotificationService();
     service.initialize();
     super.initState();
+    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) => checkForNewNotif());
+  }
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+
+  void checkForNewNotif() async {
+    for (int i = 0; i<allnotifications.length;i++){
+      if(!myNotifications.contains(allnotifications[i])){
+        myNotifications.add(allnotifications[i]);
+        await service.showNotification(id:i,title: '${allnotifications[i]}',body: 'some message',/*seconds: 4*/);
+Future.delayed(Duration(seconds: 1));
+      };
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 18, 31, 83),
       //SLIDEMENU
@@ -36,13 +59,15 @@ class _MainScreenState extends State<MainScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              await service.showNotification(id:0,title: 'here we go',body: 'some message');
+              showNotify(context);
             },
             icon: const Image(image: AssetImage('assets/img/sort.png')),
           ),
           IconButton(
             onPressed: () {
-              showNotify(context);
+              // await service.showNotification(id:1,title: 'here we go',body: 'some message',seconds: 4);
+              allnotifications.add('${Random().nextInt(100)}');
+
             },
             icon: const Image(image: AssetImage('assets/img/ring.png')),
           ),
