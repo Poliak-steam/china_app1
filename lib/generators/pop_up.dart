@@ -1,10 +1,10 @@
+import 'dart:io';
 import 'package:china_app/functions/string_functions.dart';
-import 'package:china_app/grants/grant_storage.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import '../vars/variables.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 
 void showTransModal(String id, int i, context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
@@ -520,15 +520,19 @@ void showDocsModal(String id, int i, context) {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        FileDownloader.downloadFile(
-                            url:
-                                'https://zaochnik.ru/uploads/2019/10/17/primer-kursovoy-raboty.doc',
-                            onDownloadCompleted: (String path) {
-                              print('FILE DOWNLOADED TO PATH: $path');
-                            },
-                            onDownloadError: (String error) {
-                              print('DOWNLOAD ERROR: $error');
-                            });
+                        Dio dio = Dio();
+                        final Directory directory =
+                        (await getExternalStorageDirectories(type: StorageDirectory.documents))!.first ;
+
+                        final String savePath = '${directory.path}/file.pdf';
+                        print(savePath);
+
+                        dio.download('http://spspo.ru/data/3497.pdf', savePath,
+                            deleteOnError: true,
+                            onReceiveProgress: (rcv, total) {
+                          print(
+                              'received: ${rcv.toStringAsFixed(0)} out of total: ${total.toStringAsFixed(0)}');
+                        });
                       },
                       child: Row(
                         children: [
