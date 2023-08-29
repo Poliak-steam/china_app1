@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../vars/variables.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:background_downloader/background_downloader.dart';
 
 void showTransModal(String id, int i, context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
@@ -520,11 +521,47 @@ void showDocsModal(String id, int i, context) {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        Dio dio = Dio();
-                        final Directory directory =
-                        (await getExternalStorageDirectories(type: StorageDirectory.documents))!.first ;
+                        // Use .download to start a download and wait for it to complete
+                        final Directory directory = await getApplicationDocumentsDirectory();
+                        final String savePath = Platform.isAndroid ? '/storage/emulated/0/Download' : '${directory.path}';
+                        print(savePath);
 
-                        final String savePath = '${directory.path}/file.pdf';
+// define the download task (subset of parameters shown)
+                        final task = DownloadTask(
+                          taskId: '1',
+                            url: 'https://core.ac.uk/download/pdf/38540393.pdf',
+                            filename: 'file.pdf',
+                            updates: Updates
+                                .statusAndProgress, // request status and progress updates
+                            allowPause: true,
+                            metaData: 'data for me');
+
+// Start download, and wait for result. Show progress and status changes
+// while downloading
+                        final result = await FileDownloader().download(task,
+                            onProgress: (progress) =>
+                                print('Progress: ${progress * 100}%'),
+                            onStatus: (status) => print('Status: $status'));
+
+// Act on the result
+                        switch (result.status) {
+                          case TaskStatus.complete:
+                            print('Success!');
+                            FileDownloader().openFile(task: task);
+
+                          case TaskStatus.canceled:
+                            print('Download was canceled');
+
+                          case TaskStatus.paused:
+                            print('Download was paused');
+
+                          default:
+                            print('Download not successful ${result.exception}');
+                        }
+
+                        /*Dio dio = Dio();
+                        final Directory directory = await getApplicationDocumentsDirectory();
+                        final String savePath = Platform.isAndroid ? '/storage/emulated/0/Download/file.pdf' : '${directory.path}/file.pdf';
                         print(savePath);
 
                         dio.download('http://spspo.ru/data/3497.pdf', savePath,
@@ -532,7 +569,7 @@ void showDocsModal(String id, int i, context) {
                             onReceiveProgress: (rcv, total) {
                           print(
                               'received: ${rcv.toStringAsFixed(0)} out of total: ${total.toStringAsFixed(0)}');
-                        });
+                        });*/
                       },
                       child: Row(
                         children: [
