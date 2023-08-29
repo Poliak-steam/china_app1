@@ -521,22 +521,13 @@ void showDocsModal(String id, int i, context) {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        Future<Directory> getDownloadDir() async {
-                          return Directory('/storage/emulated/0/Download');
-                        }
-                        final va = await getDownloadDir();
-                        print(va.path);
-                        // Use .download to start a download and wait for it to complete
-                        final Directory directory = await getApplicationDocumentsDirectory();
-                        final String savePath = Platform.isAndroid ? '/storage/emulated/0/Download' : '${directory.path}';
-                        print(directory.path);
+
 
 // define the download task (subset of parameters shown)
                         final task = DownloadTask(
                           taskId: '1',
                             url: 'https://core.ac.uk/download/pdf/38540393.pdf',
                             filename: 'file.pdf',
-                            baseDirectory: Platform.isAndroid ? BaseDirectory.downloadsDir : BaseDirectory.applicationDocuments,
                             updates: Updates
                                 .statusAndProgress, // request status and progress updates
                             allowPause: true,
