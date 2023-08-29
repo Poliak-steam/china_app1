@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:china_app/functions/string_functions.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../vars/variables.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -521,13 +522,15 @@ void showDocsModal(String id, int i, context) {
                   children: [
                     GestureDetector(
                       onTap: () async {
+                        print((await getExternalStorageDirectory())?.path);
 
 
 // define the download task (subset of parameters shown)
                         final task = DownloadTask(
                           taskId: '1',
-                            url: 'https://core.ac.uk/download/pdf/38540393.pdf',
-                            filename: 'file.pdf',
+                            url: 'https://core.ac.uk/download/pdf/',
+                            filename: '38540393.pdf',
+                            directory: 'my',
                             updates: Updates
                                 .statusAndProgress, // request status and progress updates
                             allowPause: true,
