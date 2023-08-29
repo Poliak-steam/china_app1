@@ -522,19 +522,14 @@ void showDocsModal(String id, int i, context) {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        print((await getExternalStorageDirectory())?.path);
+                        Permission.manageExternalStorage.request();
+                        final dir = await getExternalStorageDirectory() as Directory;
 
-
-// define the download task (subset of parameters shown)
-                        final task = DownloadTask(
-                          taskId: '1',
-                            url: 'https://core.ac.uk/download/pdf/',
-                            filename: '38540393.pdf',
-                            directory: 'my',
-                            updates: Updates
-                                .statusAndProgress, // request status and progress updates
+                        final task = await DownloadTask(
+                            url: 'http://spspo.ru/data/3497.pdf',
+                            updates: Updates.statusAndProgress,
                             allowPause: true,
-                            metaData: 'data for me');
+                            metaData: 'data for me').withSuggestedFilename(unique: true);
 
 // Start download, and wait for result. Show progress and status changes
 // while downloading
@@ -542,12 +537,13 @@ void showDocsModal(String id, int i, context) {
                             onProgress: (progress) =>
                                 print('Progress: ${progress * 100}%'),
                             onStatus: (status) => print('Status: $status'));
+                         await FileDownloader().moveToSharedStorage(task, SharedStorage.downloads);
 
 // Act on the result
                         switch (result.status) {
                           case TaskStatus.complete:
                             print('Success!');
-                            FileDownloader().openFile(task: task);
+
 
                           case TaskStatus.canceled:
                             print('Download was canceled');
@@ -556,10 +552,14 @@ void showDocsModal(String id, int i, context) {
                             print('Download was paused');
 
                           default:
-                            print('Download not successful ${result.exception}');
+                            print(
+                                'Download not successful ${result.exception}');
                         }
+                        print('${dir.path}');
 
-                        /*Dio dio = Dio();
+                       /* Permission.manageExternalStorage.request();
+;
+                        Dio dio = Dio();
                         final Directory directory = await getApplicationDocumentsDirectory();
                         final String savePath = Platform.isAndroid ? '/storage/emulated/0/Download/file.pdf' : '${directory.path}/file.pdf';
                         print(savePath);
