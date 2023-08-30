@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:china_app/notifications/notify.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:china_app/generators/generate_widjet.dart';
-
 import '../generators/pop_up.dart';
 
 class MainScreen extends StatefulWidget {
@@ -13,6 +11,7 @@ class MainScreen extends StatefulWidget {
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
+
 
 class _MainScreenState extends State<MainScreen> {
   final searchController = TextEditingController();
@@ -25,6 +24,33 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     service = LocalNotificationService();
     service.initialize();
+
+
+
+    FirebaseMessaging.onMessage.listen((event) {
+      if(event.notification == null) return;
+      showDialog(context: context, builder: (context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 200,
+              height: 200,
+              color: Colors.white,
+              child: Column(
+                children: [
+                  Text(event.notification?.title??''),
+                  const SizedBox(height: 8,),
+                  Text(event.notification?.body??'')
+                ],
+              ),
+            ),
+          ],
+        );
+      });
+    });
+
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 5), (Timer t) => checkForNewNotif());
   }

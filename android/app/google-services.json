@@ -7,7 +7,43 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1065792557169:android:cffaae17c24c899c440bd0",
+        "mobilesdk_app_id": "1:1065792557169:android:5683061a78f2aea5440bd0",
+        "android_client_info": {
+          "package_name": "com.example.chinaApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065792557169-sb52qa9mmp3h8kalrtp9kkh28q073rr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-7y9Q0pgR0HfawtOPnf6GAD1iTd580ME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065792557169-sb52qa9mmp3h8kalrtp9kkh28q073rr6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1065792557169-lrdcqs28sgqntegna4ohksr7t0tvpqpf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.china"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065792557169:android:13082de3aebed613440bd0",
         "android_client_info": {
           "package_name": "com.example.china_app"
         }
@@ -29,6 +65,13 @@
             {
               "client_id": "1065792557169-sb52qa9mmp3h8kalrtp9kkh28q073rr6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1065792557169-lrdcqs28sgqntegna4ohksr7t0tvpqpf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.china"
+              }
             }
           ]
         }
