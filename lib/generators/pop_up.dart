@@ -1,12 +1,12 @@
 import 'dart:io';
+
+import 'package:background_downloader/background_downloader.dart';
 import 'package:china_app/functions/string_functions.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+import '../functions/Downloader.dart';
 import '../vars/variables.dart';
-import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:background_downloader/background_downloader.dart';
 
 void showTransModal(String id, int i, context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
@@ -521,56 +521,15 @@ void showDocsModal(String id, int i, context) {
                 child: Column(
                   children: [
                     GestureDetector(
-                      onTap: () async {
-                        Permission.manageExternalStorage.request();
-                        final dir = await getExternalStorageDirectory() as Directory;
-
-                        final task = await DownloadTask(
-                            url: 'http://spspo.ru/data/3497.pdf',
-                            updates: Updates.statusAndProgress,
-                            allowPause: true,
-                            metaData: 'data for me').withSuggestedFilename(unique: true);
-
-// Start download, and wait for result. Show progress and status changes
-// while downloading
-                        final result = await FileDownloader().download(task,
-                            onProgress: (progress) =>
-                                print('Progress: ${progress * 100}%'),
-                            onStatus: (status) => print('Status: $status'));
-                         await FileDownloader().moveToSharedStorage(task, SharedStorage.downloads);
-
-// Act on the result
-                        switch (result.status) {
-                          case TaskStatus.complete:
-                            print('Success!');
-
-
-                          case TaskStatus.canceled:
-                            print('Download was canceled');
-
-                          case TaskStatus.paused:
-                            print('Download was paused');
-
-                          default:
-                            print(
-                                'Download not successful ${result.exception}');
+                      onTap:() async {
+                       final filePath = '${(await getApplicationSupportDirectory()).path}/3497.pdf';
+                        if(await File(filePath).exists()) {
+                          FileDownloader().openFile(filePath: filePath);
+                        } else {
+                          await downloadFile();
                         }
-                        print('${dir.path}');
-
-                       /* Permission.manageExternalStorage.request();
-;
-                        Dio dio = Dio();
-                        final Directory directory = await getApplicationDocumentsDirectory();
-                        final String savePath = Platform.isAndroid ? '/storage/emulated/0/Download/file.pdf' : '${directory.path}/file.pdf';
-                        print(savePath);
-
-                        dio.download('http://spspo.ru/data/3497.pdf', savePath,
-                            deleteOnError: true,
-                            onReceiveProgress: (rcv, total) {
-                          print(
-                              'received: ${rcv.toStringAsFixed(0)} out of total: ${total.toStringAsFixed(0)}');
-                        });*/
                       },
+
                       child: Row(
                         children: [
                           const Image(image: AssetImage('assets/img/docs.png')),

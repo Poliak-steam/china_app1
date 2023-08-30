@@ -9,12 +9,7 @@ import 'package:timezone/data/latest.dart' as tz;
 List allnotifications = [
   'notify1',
   'notify2',
-  'notify3',
-  'notify4',
-  'notify5',
-  'notify6',
-  'notify7',
-  'notify8',
+
 ];
 
 List myNotifications = [
@@ -58,8 +53,8 @@ class LocalNotificationService {
     required String title,
     required String body,
   }) async {
-    _localNotificationService.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
+    /*_localNotificationService.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();*/
     final details = await _notificationDetails(id);
     try {
       await _localNotificationService.show(id, title, body, details);

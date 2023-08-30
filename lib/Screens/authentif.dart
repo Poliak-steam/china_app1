@@ -195,8 +195,7 @@ class _AuthentificationState extends State<Authentification> {
                       });
                     } else {
                       if (await isApiConnected()) {
-                        var result = await Permission.storage.request();
-                        print(result);
+                        Permission.notification.request();
                         _loadScreenOpen();
                         await StartVars.getVars();
                         Navigator.pushReplacementNamed(context, '/MainScreen');
