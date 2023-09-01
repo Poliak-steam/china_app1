@@ -1,6 +1,8 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../networking/network_func.dart';
+import '../notifications/notify.dart';
 import '../vars/variables.dart';
 
 class ConnectionState extends StatefulWidget {
@@ -39,7 +41,7 @@ class ConnectionStateState extends State<ConnectionState>
             padding: const EdgeInsets.symmetric(horizontal: 30),
             height: 40,
             color: const Color.fromARGB(100, 47, 47, 47),
-            child:  FittedBox(
+            child: FittedBox(
               child: Text(
                 widget.text,
                 style: TextStyle(
@@ -63,7 +65,7 @@ class Authentification extends StatefulWidget {
 class _AuthentificationState extends State<Authentification> {
   final emailController = TextEditingController();
   final pasController = TextEditingController();
-  var _overlayEntry ;
+  var _overlayEntry;
 
   void _loadScreenOpen() {
     Navigator.of(context)
@@ -186,8 +188,11 @@ class _AuthentificationState extends State<Authentification> {
                       )),
                   onPressed: () async {
                     if (!(await isConnected())) {
-                      _overlayEntry = OverlayEntry(builder: (BuildContext context) {
-                        return const ConnectionState(text: 'No internet connection',);
+                      _overlayEntry =
+                          OverlayEntry(builder: (BuildContext context) {
+                        return const ConnectionState(
+                          text: 'No internet connection',
+                        );
                       });
                       Navigator.of(context).overlay?.insert(_overlayEntry);
                       Future.delayed(const Duration(seconds: 10), () {
@@ -196,12 +201,20 @@ class _AuthentificationState extends State<Authentification> {
                     } else {
                       if (await isApiConnected()) {
                         Permission.notification.request();
+                        FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+                        final fcmToken =
+                            await FirebaseMessaging.instance.getToken();
+                        print('$fcmToken');
                         _loadScreenOpen();
                         await StartVars.getVars();
                         Navigator.pushReplacementNamed(context, '/MainScreen');
                       } else {
-                        _overlayEntry = OverlayEntry(builder: (BuildContext context) {
-                          return const ConnectionState(text: 'cant connect to server',);
+                        _overlayEntry =
+                            OverlayEntry(builder: (BuildContext context) {
+                          return const ConnectionState(
+                            text: 'cant connect to server',
+                          );
                         });
                         Navigator.of(context).overlay?.insert(_overlayEntry);
                         Future.delayed(const Duration(seconds: 10), () {

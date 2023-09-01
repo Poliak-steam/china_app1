@@ -1,28 +1,15 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
-import 'package:timezone/timezone.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rxdart/subjects.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
-List allnotifications = [
-  'notify1',
-  'notify2',
-
-];
-
-List myNotifications = [
-  'notify2',
-  'notify3',
-];
 class LocalNotificationService {
   LocalNotificationService();
 
   final _localNotificationService = FlutterLocalNotificationsPlugin();
 
   Future<void> initialize() async {
-    tz.initializeTimeZones();
     const AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('@mipmap/logo_android');
     const DarwinInitializationSettings iosInitialisationSettings =
@@ -33,8 +20,8 @@ class LocalNotificationService {
   }
 
   Future<NotificationDetails> _notificationDetails(notifyID) async {
-     AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('$notifyID', 'chanel_name',
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('$notifyID', 'android_local_notify',
             channelDescription: 'description',
             importance: Importance.max,
             priority: Priority.max,
@@ -48,49 +35,27 @@ class LocalNotificationService {
 
 //уведомление без полезной нагрузки
   Future<void> showNotification({
-
     required int id,
     required String title,
     required String body,
   }) async {
-    /*_localNotificationService.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();*/
+    _localNotificationService.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
     final details = await _notificationDetails(id);
     try {
       await _localNotificationService.show(id, title, body, details);
     } catch (er) {
-      print('$er eroooooor');
+      print('$er notify error');
     }
     ;
   }
+}
 
-//уведомление с задержкой
-  /*Future<void> showNotification({
-    required int id,
-    required String title,
-    required String body,
-    required int seconds,
-  }) async {
-    _localNotificationService
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestPermission();
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
 
-    final details = await _notificationDetails(id);
-    try {
-      await _localNotificationService.zonedSchedule(
-          id,
-          title,
-          body,
-          TZDateTime.from(
-              DateTime.now().add(Duration(seconds: seconds)), local),
-          details,
-          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);
-    } catch (er) {
-      print('$er eroooooor');
-    }
-    ;
-  }*/
+  print("Handling a background message: ${message.messageId}");
 }

@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:china_app/notifications/notify.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:china_app/generators/generate_widjet.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import '../generators/pop_up.dart';
 
 class MainScreen extends StatefulWidget {
@@ -21,32 +19,23 @@ class _MainScreenState extends State<MainScreen> {
 
   late final LocalNotificationService service;
 
+
   @override
   void initState() {
     service = LocalNotificationService();
     service.initialize();
+
     super.initState();
-    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) => checkForNewNotif());
-  }
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
-  }
-
-
-  void checkForNewNotif() async {
-    for (int i = 0; i<allnotifications.length;i++){
-      if(!myNotifications.contains(allnotifications[i])){
-        myNotifications.add(allnotifications[i]);
-        await service.showNotification(id:i,title: '${allnotifications[i]}',body: 'some message',/*seconds: 4*/);
-Future.delayed(Duration(seconds: 1));
-      };
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      service.showNotification(
+          id: 1,
+          title: message.notification?.title ?? 'notify have no body',
+          body: message.notification?.body ?? 'notify have no body');
+    });
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 18, 31, 83),
@@ -65,9 +54,7 @@ Future.delayed(Duration(seconds: 1));
           ),
           IconButton(
             onPressed: () {
-              // await service.showNotification(id:1,title: 'here we go',body: 'some message',seconds: 4);
-              allnotifications.add('${Random().nextInt(100)}');
-
+              showNotify(context);
             },
             icon: const Image(image: AssetImage('assets/img/ring.png')),
           ),
@@ -82,73 +69,70 @@ Future.delayed(Duration(seconds: 1));
         // TRANS LIST
         Expanded(
             child: Container(
-              margin: const EdgeInsets.only(top: 20),
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 238, 240, 244),
-                  border: Border.all(color: Colors.black, width: 1),
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              child: Column(
-                children: [
-                  //top line
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 15),
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                    height: 4,
-                    width: 30,
-                  ),
-
-                  //search
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15),
-                    margin: const EdgeInsets.only(bottom: 20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Поиск'),
-                            maxLines: 1,
-                            controller: searchController,
-                            onChanged: (text) {
-                              setState(() {
-                                _searchText = searchController.text;
-                              });
-                            },
-                          ),
-                        ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Image(
-                              image: AssetImage('assets/img/search.png'),
-                            )),
-                      ],
-                    ),
-                  ),
-
-                  //TRANS LIST
-                  Expanded(
-                    child: ValueListenableBuilder<int>(
-                        valueListenable: statusIndex,
-                        builder: (context, statusIndex, child) {
-                          return createTransitTable(
-                              statusIndex, _searchText, context);
-                        }),
-                  )
-                ],
+          margin: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 238, 240, 244),
+              border: Border.all(color: Colors.black, width: 1),
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          child: Column(
+            children: [
+              //top line
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 10, 0, 15),
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+                height: 4,
+                width: 30,
               ),
-            ))
+
+              //search
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                margin: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: const InputDecoration(
+                            border: InputBorder.none, hintText: 'Поиск'),
+                        maxLines: 1,
+                        controller: searchController,
+                        onChanged: (text) {
+                          setState(() {
+                            _searchText = searchController.text;
+                          });
+                        },
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Image(
+                          image: AssetImage('assets/img/search.png'),
+                        )),
+                  ],
+                ),
+              ),
+
+              //TRANS LIST
+              Expanded(
+                child: ValueListenableBuilder<int>(
+                    valueListenable: statusIndex,
+                    builder: (context, statusIndex, child) {
+                      return createTransitTable(
+                          statusIndex, _searchText, context);
+                    }),
+              )
+            ],
+          ),
+        ))
       ]),
     );
   }
