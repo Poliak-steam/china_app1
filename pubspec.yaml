@@ -30,8 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.5
-  flutter_secure_storage: ^8.0.0
+  http: ^1.1.0
+  flutter_secure_storage: ^9.0.0
   dotted_line: ^3.2.2
   connectivity_plus: ^4.0.2
   permission_handler: ^10.4.3
