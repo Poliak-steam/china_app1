@@ -19,13 +19,12 @@ class _MainScreenState extends State<MainScreen> {
 
   late final LocalNotificationService service;
 
-
   @override
   void initState() {
     service = LocalNotificationService();
     service.initialize();
-
     super.initState();
+    iosRequest();
   }
 
   @override
