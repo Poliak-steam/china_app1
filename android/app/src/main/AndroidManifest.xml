@@ -14,7 +14,7 @@
 
     <application
         android:requestLegacyExternalStorage="true"
-        android:label="china_app"
+        android:label="HLFlutterApp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">

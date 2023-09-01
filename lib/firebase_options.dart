@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB-7y9Q0pgR0HfawtOPnf6GAD1iTd580ME',
-    appId: '1:1065792557169:android:5683061a78f2aea5440bd0',
+    appId: '1:1065792557169:android:db40321196bc295b440bd0',
     messagingSenderId: '1065792557169',
     projectId: 'highwaynotify-155b7',
     storageBucket: 'highwaynotify-155b7.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDarxCZwL2_T7UErIowvWErANor9Zve20g',
-    appId: '1:1065792557169:ios:1e253b74b5715f84440bd0',
+    appId: '1:1065792557169:ios:c8599bad18b2794d440bd0',
     messagingSenderId: '1065792557169',
     projectId: 'highwaynotify-155b7',
     storageBucket: 'highwaynotify-155b7.appspot.com',
-    iosClientId: '1065792557169-vm55lc4cjodss2e0ab1mncj1c1m73i5e.apps.googleusercontent.com',
-    iosBundleId: 'com.example.chinaApp',
+    iosClientId: '1065792557169-ce0k2r5atm659a9tpeh3a20abtqitgpq.apps.googleusercontent.com',
+    iosBundleId: 'com.example.HLFlutterApp',
   );
 }

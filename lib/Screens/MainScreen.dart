@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:china_app/notifications/notify.dart';
+import 'package:HLFlutterApp/notifications/notify.dart';
 import 'package:flutter/material.dart';
-import 'package:china_app/generators/generate_widjet.dart';
+import 'package:HLFlutterApp/generators/generate_widjet.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../generators/pop_up.dart';
 
@@ -24,7 +24,6 @@ class _MainScreenState extends State<MainScreen> {
     service = LocalNotificationService();
     service.initialize();
     super.initState();
-    iosRequest();
   }
 
   @override

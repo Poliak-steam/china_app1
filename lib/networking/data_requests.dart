@@ -1,8 +1,8 @@
-import 'package:china_app/networking/parsing.dart';
-import 'package:china_app/storage/secure_storage.dart';
+import 'package:HLFlutterApp/networking/parsing.dart';
+import 'package:HLFlutterApp/storage/secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:china_app/networking/request_vars.dart';
+import 'package:HLFlutterApp/networking/request_vars.dart';
 import 'network_func.dart';
 
 Future<Map> postOrderInfo(user, psw, Map requestMap) async {

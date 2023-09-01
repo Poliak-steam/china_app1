@@ -201,6 +201,7 @@ class _AuthentificationState extends State<Authentification> {
                     } else {
                       if (await isApiConnected()) {
                         Permission.notification.request();
+                        iosRequest();
                         FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
                         final fcmToken =

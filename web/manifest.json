@@ -1,6 +1,6 @@
 {
-    "name": "china_app",
-    "short_name": "china_app",
+    "name": "HLFlutterApp",
+    "short_name": "HLFlutterApp",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

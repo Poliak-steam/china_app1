@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:background_downloader/background_downloader.dart';
-import 'package:china_app/functions/string_functions.dart';
+import 'package:HLFlutterApp/functions/string_functions.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import '../functions/Downloader.dart';

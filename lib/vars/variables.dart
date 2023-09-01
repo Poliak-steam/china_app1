@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:china_app/storage/secure_storage.dart';
+import 'package:HLFlutterApp/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:china_app/networking/data_requests.dart';
-import 'package:china_app/networking/request_vars.dart';
+import 'package:HLFlutterApp/networking/data_requests.dart';
+import 'package:HLFlutterApp/networking/request_vars.dart';
 import '../networking/parsing.dart';
 
 
