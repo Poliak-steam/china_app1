@@ -72,5 +72,6 @@ Future<void> iosRequest() async {
     provisional: false,
     sound: true,
   );
+
   print('User granted permission: ${settings.authorizationStatus}');
 }
