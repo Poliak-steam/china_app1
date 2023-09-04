@@ -1,6 +1,6 @@
-import 'package:HLFlutterApp/generators/pop_up.dart';
+import 'package:hl_flutter_app/generators/pop_up.dart';
 import 'package:flutter/material.dart';
-import 'package:HLFlutterApp/vars/variables.dart';
+import 'package:hl_flutter_app/vars/variables.dart';
 
 var statusIndex = ValueNotifier(-1);
 

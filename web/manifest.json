@@ -1,6 +1,6 @@
 {
-    "name": "HLFlutterApp",
-    "short_name": "HLFlutterApp",
+    "name": "hl_flutter_app",
+    "short_name": "hl_flutter_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

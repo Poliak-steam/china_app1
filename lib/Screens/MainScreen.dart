@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:HLFlutterApp/notifications/notify.dart';
+import 'package:hl_flutter_app/notifications/notify.dart';
 import 'package:flutter/material.dart';
-import 'package:HLFlutterApp/generators/generate_widjet.dart';
+import 'package:hl_flutter_app/generators/generate_widjet.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../generators/pop_up.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

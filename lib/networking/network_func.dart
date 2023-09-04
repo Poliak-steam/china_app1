@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:HLFlutterApp/networking/request_vars.dart';
+import 'package:hl_flutter_app/networking/request_vars.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 

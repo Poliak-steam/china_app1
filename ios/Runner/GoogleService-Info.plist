@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.HLFlutterApp</string>
+	<string>com.example.highway</string>
 	<key>PROJECT_ID</key>
 	<string>highwaynotify-155b7</string>
 	<key>STORAGE_BUCKET</key>
