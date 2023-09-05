@@ -1,90 +1,41 @@
 // СТРУКТУРА ДЛЯ ГРУЗОВ
-class Transits {
-  Transits({
-    required this.batch,
-    required this.destination,
-    required this.numberClient,
-    required this.statusInfo,
-    required this.id,
-    required this.fullInfo,
-    required this.weight,
-    required this.dopSum,
+import 'package:isar/isar.dart';
+import '../Collections/transit_col.dart';
+import '../vars/variables.dart';
+
+void getTransitInfo() async {
+  await isar.writeTxn(() async {
+    await isar.transits.clear();
+    for (var el in transits) {
+      final newStatusInfo = StatusInfo()
+        ..id = el['status_info']['status_id']
+        ..statusName = el['status_info']['status']
+        ..statusDate = el['status_info']['date'];
+      final newDocs = Docs()..name = 'hh';
+      final newTransit = Transit()
+        ..id = int.parse(el['id'])
+        ..numberClient = el['number_client']
+        ..destination = el['destination']
+        ..weight = el['weight_b']
+        ..dopSum = double.parse(el['full_info']['dop_sum'].toString())
+        ..countPlaces = el['full_info']['count_places']
+        ..volume = el['volume']
+        ..density = el['full_info']['density']
+        ..batch = el['batch']
+        ..docs.value = newDocs
+        ..statusInfo.value = newStatusInfo;
+      await isar.transits.put(newTransit);
+      await isar.statusInfos.put(newStatusInfo);
+      await isar.docs.put(newDocs);
+      await newTransit.docs.save();
+      await newTransit.statusInfo.save();
+    }
   });
-  final String id;
-  final String? batch;
-  final String destination;
-  final String numberClient;
-  final Map statusInfo;
-  final FullInfo fullInfo;
-  final double dopSum;
-  final double weight;
+  transitsList = await readTransits();
 
-  factory Transits.fromJson(Map<String, dynamic> JsonMap) {
-    final batch =
-    (JsonMap['batch'] != null) ? (JsonMap['batch']) as String : 'no batch';
-    final destination = (JsonMap['destination'] != null)
-        ? (JsonMap['destination']) as String
-        : 'no destination';
-    final numberClient = (JsonMap['number_client'] != null)
-        ? (JsonMap['number_client']) as String
-        : 'no number';
-    final statusInfo = (JsonMap['status_info'] != null)
-        ? (JsonMap['status_info']) as Map<String, dynamic>
-        : {'status': 'nostatus'};
-    final id = JsonMap['id'];
-    final fullInfo = (JsonMap['full_info'] != null)
-        ? (FullInfo.fromJson(JsonMap['full_info']))
-        : FullInfo.fromJson({'info': 'noInfo'} as Map<String, dynamic>);
-    final weight =
-    (JsonMap['weight_b'] != null) ? (JsonMap['weight_b']) as double : 0.0;
-    final dopSum =
-    (JsonMap['dop_sum'] != null) ? (JsonMap['dop_sum']).toDouble() : 0.0;
-
-    return Transits(
-      weight: weight,
-      fullInfo: fullInfo,
-      dopSum: dopSum,
-      id: id,
-      batch: batch,
-      destination: destination,
-      numberClient: numberClient,
-      statusInfo: statusInfo,
-    );
-  }
 }
 
-class FullInfo {
-  FullInfo({
-    required this.countPlaces,
-    required this.volume,
-    required this.density,
-    required this.docs,
-  });
-  final int countPlaces;
-  final String volume;
-  final double density;
-  final Map docs;
-
-  factory FullInfo.fromJson(Map<String, dynamic> JsonMap) {
-    final countPlaces = (JsonMap['count_places'] != null)
-        ? (JsonMap['count_places']) as int
-        : 0;
-    final volume =
-    (JsonMap['volume'] != null) ? (JsonMap['volume']) as String : '0.0';
-    final density =
-    (JsonMap['density'] != null) ? (JsonMap['density']) as double : 0.0;
-    final docs = ((JsonMap['account_document'] != null) &&
-        (JsonMap['account_document'] != ''))
-        ? (JsonMap['account_document']) as Map<String, dynamic>
-        : {'name': 'no file'};
-    ;
-
-    return FullInfo(
-      docs: docs,
-      countPlaces: countPlaces,
-      volume: volume,
-      density: density,
-    );
-  }
+Future<List<Transit>> readTransits() async {
+  final allTransits = await isar.transits.where().findAll();
+  return allTransits;
 }
-

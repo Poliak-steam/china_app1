@@ -96,10 +96,10 @@ Widget createSlider(whoActive) {
 //СОЗДАНИЕ ТАБЛИЦЫ ЗАКАЗОВ
 Widget createTransitTable(int statusIndex, String searchText, context) {
   List<Widget> baggagesWidgets = [];
-  final count = CargosList.length - 1;
+  final count = transitsList.length;
   if (searchText != '') {
     for (int i = 0; i < count; i++) {
-      if (CargosList[i].numberClient.contains(searchText.toUpperCase())) {
+      if (transitsList[i].numberClient.contains(searchText.toUpperCase())) {
         addBaggages(baggagesWidgets, i, context);
       }
     }
@@ -107,7 +107,7 @@ Widget createTransitTable(int statusIndex, String searchText, context) {
     for (int i = 0; i < count; i++) {
       if (statusIndex == -1) {
         addBaggages(baggagesWidgets, i, context);
-      } else if (statusIndex == CargosList[i].statusInfo['status_id']) {
+      } else if (statusIndex == transitsList[i].statusInfo.value!.id) {
         addBaggages(baggagesWidgets, i, context);
       }
     }
@@ -130,10 +130,11 @@ Widget createTransitTable(int statusIndex, String searchText, context) {
 
 // СОЗДАНИЕ СПИСКА ЗАКАЗОВ
 void addBaggages(List<Widget> List, int i, context) {
+
   List.add(
     InkWell(
       onTap: () {
-        showTransModal(CargosList[i].id, i, context);
+        showTransModal(i, context);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -154,17 +155,17 @@ void addBaggages(List<Widget> List, int i, context) {
                     Icon(
                       Icons.circle,
                       size: 8,
-                      color: StatusColor[CargosList[i].statusInfo['status_id']],
+                      color: StatusColor[transitsList[i].statusInfo.value?.id],
                     ),
                     const Padding(padding: EdgeInsets.only(right: 5)),
                     Text(
-                      CargosList[i].statusInfo['status'],
+                      transitsList[i].statusInfo.value!.statusName,
                       style: const TextStyle(color: Colors.grey),
                     )
                   ],
                 ),
                 Text(
-                  CargosList[i].numberClient,
+                  transitsList[i].numberClient,
                   style: const TextStyle(
                       fontSize: 16, color: Color.fromARGB(255, 23, 38, 115)),
                 )
@@ -175,7 +176,7 @@ void addBaggages(List<Widget> List, int i, context) {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  CargosList[i].batch as String,
+                  transitsList[i].batch,
                   style: const TextStyle(color: Colors.grey),
                 ),
                 Row(
@@ -187,7 +188,7 @@ void addBaggages(List<Widget> List, int i, context) {
                     ),
                     const Padding(padding: EdgeInsets.only(right: 5)),
                     Text(
-                      CargosList[i].destination,
+                      transitsList[i].destination,
                       style: const TextStyle(color: Colors.grey),
                     )
                   ],

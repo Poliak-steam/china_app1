@@ -1,11 +1,10 @@
-import 'dart:async';
-import 'dart:math';
-import 'package:hl_flutter_app/notifications/notify.dart';
 import 'package:flutter/material.dart';
 import 'package:hl_flutter_app/generators/generate_widjet.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hl_flutter_app/networking/request_vars.dart';
+
 import '../generators/pop_up.dart';
 
+import 'package:hl_flutter_app/vars/variables.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,29 +15,27 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final searchController = TextEditingController();
   String _searchText = '';
-  late Timer timer;
+  bool isConn = true;
 
-  late final LocalNotificationService service;
-
-  @override
-  void initState() {
-    service = LocalNotificationService();
-    service.initialize();
-    super.initState();
+  _checkConn() async {
+    final ckeckConn = await StartVars.updateLocalDB();
+    setState(() {
+      isConn = ckeckConn;
+    });
   }
 
   @override
-  Widget build(BuildContext context) {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      service.showNotification(
-          id: 1,
-          title: message.notification?.title ?? 'notify have no body',
-          body: message.notification?.body ?? 'notify have no body');
-    });
+  void initState() {
+    _checkConn();
+    super.initState();
+  }
 
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 18, 31, 83),
-      //SLIDEMENU
+      //SLIDER MENU
       drawer: const Menu(),
       //APP BAR
       appBar: AppBar(

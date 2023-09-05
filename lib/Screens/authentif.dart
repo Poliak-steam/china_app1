@@ -1,59 +1,5 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import '../networking/network_func.dart';
-import '../notifications/notify.dart';
-import '../vars/variables.dart';
-
-class ConnectionState extends StatefulWidget {
-  const ConnectionState({Key? key, required this.text}) : super(key: key);
-  final String text;
-
-  @override
-  State<StatefulWidget> createState() => ConnectionStateState();
-}
-
-class ConnectionStateState extends State<ConnectionState>
-    with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation<Offset> position;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 750));
-    position = Tween<Offset>(begin: const Offset(0.0, -4.0), end: Offset.zero)
-        .animate(CurvedAnimation(parent: controller, curve: Curves.linear));
-
-    controller.forward();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: SlideTransition(
-          position: position,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            height: 40,
-            color: const Color.fromARGB(100, 47, 47, 47),
-            child: FittedBox(
-              child: Text(
-                widget.text,
-                style: TextStyle(
-                    color: Colors.white, decoration: TextDecoration.none),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+import 'package:hl_flutter_app/functions/conn_loader.dart';
 
 class Authentification extends StatefulWidget {
   const Authentification({super.key});
@@ -65,25 +11,6 @@ class Authentification extends StatefulWidget {
 class _AuthentificationState extends State<Authentification> {
   final emailController = TextEditingController();
   final pasController = TextEditingController();
-  var _overlayEntry;
-
-  void _loadScreenOpen() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return const Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('loading...'),
-              Icon(Icons.accessible_forward),
-            ],
-          ),
-        ),
-      );
-    }));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,43 +113,8 @@ class _AuthentificationState extends State<Authentification> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       )),
-                  onPressed: () async {
-                    if (!(await isConnected())) {
-                      _overlayEntry =
-                          OverlayEntry(builder: (BuildContext context) {
-                        return const ConnectionState(
-                          text: 'No internet connection',
-                        );
-                      });
-                      Navigator.of(context).overlay?.insert(_overlayEntry);
-                      Future.delayed(const Duration(seconds: 10), () {
-                        _overlayEntry.remove();
-                      });
-                    } else {
-                      if (await isApiConnected()) {
-                        Permission.notification.request();
-                        iosRequest();
-                        FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-                        final fcmToken =
-                            await FirebaseMessaging.instance.getToken();
-                        print('$fcmToken');
-                        _loadScreenOpen();
-                        await StartVars.getVars();
-                        Navigator.pushReplacementNamed(context, '/MainScreen');
-                      } else {
-                        _overlayEntry =
-                            OverlayEntry(builder: (BuildContext context) {
-                          return const ConnectionState(
-                            text: 'cant connect to server',
-                          );
-                        });
-                        Navigator.of(context).overlay?.insert(_overlayEntry);
-                        Future.delayed(const Duration(seconds: 10), () {
-                          _overlayEntry.remove();
-                        });
-                      }
-                    }
+                  onPressed: () {
+                    load(context);
                   },
                   child: Container(
                     alignment: Alignment.center,

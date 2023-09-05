@@ -8,7 +8,7 @@ import '../functions/Downloader.dart';
 import '../vars/variables.dart';
 import 'package:path_provider/path_provider.dart';
 
-void showTransModal(String id, int i, context) {
+void showTransModal(int i, context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +33,7 @@ void showTransModal(String id, int i, context) {
               ),
             ),
             Text(
-              CargosList[i].numberClient,
+              transitsList[i].numberClient,
               style: const TextStyle(color: Colors.white),
             )
           ],
@@ -93,7 +93,7 @@ void showTransModal(String id, int i, context) {
                                   Container(
                                     width: 200,
                                     child: Text(
-                                      '${CargosList[i].statusInfo['status']}'
+                                      '${transitsList[i].statusInfo.value!.statusName}'
                                           .toCapitalized(),
                                       style: const TextStyle(
                                         height: 1,
@@ -114,7 +114,7 @@ void showTransModal(String id, int i, context) {
                               Icon(
                                 Icons.circle,
                                 color: StatusColor[
-                                    CargosList[i].statusInfo['status_id']],
+                                    transitsList[i].statusInfo.value!.id],
                                 size: 8,
                               )
                             ],
@@ -122,10 +122,9 @@ void showTransModal(String id, int i, context) {
                           Row(
                             children: [
                               Text(
-                                '${CargosList[i].statusInfo['date']}'.substring(
+                                '${transitsList[i].statusInfo.value!.statusDate}'.substring(
                                     0,
-                                    CargosList[i]
-                                        .statusInfo['date']
+                                    transitsList[i].statusInfo.value!.statusDate
                                         .indexOf(' ')),
                                 style: const TextStyle(color: Colors.grey),
                               ),
@@ -153,13 +152,13 @@ void showTransModal(String id, int i, context) {
                               ),
                               const Padding(padding: EdgeInsets.only(left: 10)),
                               Text(
-                                CargosList[i].destination,
+                                transitsList[i].destination,
                                 style: const TextStyle(color: Colors.grey),
                               )
                             ],
                           ),
                           Text(
-                            CargosList[i].batch as String,
+                            transitsList[i].batch,
                             style: const TextStyle(color: Colors.grey),
                           )
                         ],
@@ -193,7 +192,7 @@ void showTransModal(String id, int i, context) {
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                         Text(
-                                          '${CargosList[i].fullInfo.countPlaces}',
+                                          '${transitsList[i].countPlaces}',
                                           style: const TextStyle(
                                             color:
                                                 Color.fromARGB(255, 21, 35, 99),
@@ -220,7 +219,7 @@ void showTransModal(String id, int i, context) {
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                         Text(
-                                          '${CargosList[i].weight.toStringAsFixed(2)} кг',
+                                          '${transitsList[i].weight.toStringAsFixed(2)} кг',
                                           style: const TextStyle(
                                             color:
                                                 Color.fromARGB(255, 21, 35, 99),
@@ -247,7 +246,7 @@ void showTransModal(String id, int i, context) {
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                         Text(
-                                          '${CargosList[i].fullInfo.volume} м\xB3',
+                                          '${transitsList[i].volume} м\xB3',
                                           style: const TextStyle(
                                             color:
                                                 Color.fromARGB(255, 21, 35, 99),
@@ -274,7 +273,7 @@ void showTransModal(String id, int i, context) {
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                         Text(
-                                          '${CargosList[i].fullInfo.density} кг/м\xB3',
+                                          '${transitsList[i].density} кг/м\xB3',
                                           style: const TextStyle(
                                             color:
                                                 Color.fromARGB(255, 21, 35, 99),
@@ -328,7 +327,7 @@ void showTransModal(String id, int i, context) {
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                         Text(
-                                          '${CargosList[i].dopSum} \u20BD',
+                                          '${transitsList[i].dopSum} \u20BD',
                                           style: const TextStyle(
                                             color:
                                                 Color.fromARGB(255, 21, 35, 99),
@@ -369,7 +368,7 @@ void showTransModal(String id, int i, context) {
                                           )),
                                         ),
                                         onPressed: () {
-                                          showDocsModal(id, i, context);
+                                          showDocsModal( i, context);
                                         },
                                         child: const Text('Документы')),
                                     const Padding(
@@ -472,7 +471,7 @@ void showNotify(context) {
   }));
 }
 
-void showDocsModal(String id, int i, context) {
+void showDocsModal(int i, context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -497,7 +496,7 @@ void showDocsModal(String id, int i, context) {
               ),
             ),
             Text(
-              CargosList[i].numberClient,
+              transitsList[i].numberClient,
               style: const TextStyle(color: Colors.white),
             )
           ],
@@ -536,7 +535,7 @@ void showDocsModal(String id, int i, context) {
                           const Padding(padding: EdgeInsets.only(right: 15)),
                           Expanded(
                             child: Text(
-                              CargosList[i].fullInfo.docs['name'],
+                              transitsList[i].docs.value!.name,
                               style: TextStyle(
                                   color: Color.fromARGB(255, 21, 35, 99)),
                             ),
@@ -592,7 +591,7 @@ class Menu extends StatelessWidget {
                 color: Color.fromARGB(255, 22, 36, 104),
               ),
               onTap: () {
-                print(CargosList[0].fullInfo.density);
+
               }),
           ListTile(
               title: const Text("Выйти"),
