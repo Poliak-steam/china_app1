@@ -59,7 +59,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDarxCZwL2_T7UErIowvWErANor9Zve20g',
-    appId: '1:1065792557169:ios:c09e73775e6d06b9440bd0',
+    appId: '1:1065792557169:ios:51dc090b51160fad440bd0',
     messagingSenderId: '1065792557169',
     projectId: 'highwaynotify-155b7',
     storageBucket: 'highwaynotify-155b7.appspot.com',

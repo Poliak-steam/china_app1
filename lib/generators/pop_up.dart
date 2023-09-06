@@ -166,237 +166,234 @@ void showTransModal(int i, context) {
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 10)),
                     Expanded(
-                      child: OverflowBox(
-                        maxWidth: MediaQuery.of(context).size.width,
-                        child: SingleChildScrollView(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20)),
-                              color: Colors.white,
-                            ),
-                            padding: const EdgeInsets.all(33),
-                            child: Column(
-                              children: [
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          'Количество мест',
-                                          style: TextStyle(color: Colors.grey),
+                      child: SingleChildScrollView(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                            color: Colors.white,
+                          ),
+                          padding: const EdgeInsets.all(33),
+                          child: Column(
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Количество мест',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      Text(
+                                        '${transitsList[i].countPlaces}',
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 21, 35, 99),
                                         ),
-                                        Text(
-                                          '${transitsList[i].countPlaces}',
-                                          style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 21, 35, 99),
-                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  const DottedLine(
+                                    dashColor: Colors.grey,
+                                    dashLength: 2,
+                                    dashRadius: 1,
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  //second
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Вес',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      Text(
+                                        '${transitsList[i].weight.toStringAsFixed(2)} кг',
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 21, 35, 99),
                                         ),
-                                      ],
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    const DottedLine(
-                                      dashColor: Colors.grey,
-                                      dashLength: 2,
-                                      dashRadius: 1,
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    //second
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          'Вес',
-                                          style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  const DottedLine(
+                                    dashColor: Colors.grey,
+                                    dashLength: 2,
+                                    dashRadius: 1,
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  //third
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Объем',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      Text(
+                                        '${transitsList[i].volume} м\xB3',
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 21, 35, 99),
                                         ),
-                                        Text(
-                                          '${transitsList[i].weight.toStringAsFixed(2)} кг',
-                                          style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 21, 35, 99),
-                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  const DottedLine(
+                                    dashColor: Colors.grey,
+                                    dashLength: 2,
+                                    dashRadius: 1,
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  //fourth
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Плотность',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      Text(
+                                        '${transitsList[i].density} кг/м\xB3',
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 21, 35, 99),
                                         ),
-                                      ],
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    const DottedLine(
-                                      dashColor: Colors.grey,
-                                      dashLength: 2,
-                                      dashRadius: 1,
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    //third
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          'Объем',
-                                          style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  const DottedLine(
+                                    dashColor: Colors.grey,
+                                    dashLength: 2,
+                                    dashRadius: 1,
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  //fifth
+                                  const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Курс',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      Text(
+                                        '92 \u20BD',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 21, 35, 99),
                                         ),
-                                        Text(
-                                          '${transitsList[i].volume} м\xB3',
-                                          style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 21, 35, 99),
-                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  const DottedLine(
+                                    dashColor: Colors.grey,
+                                    dashLength: 2,
+                                    dashRadius: 1,
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  //sixth
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Доп. расходы',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      Text(
+                                        '${transitsList[i].dopSum} \u20BD',
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 21, 35, 99),
                                         ),
-                                      ],
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    const DottedLine(
-                                      dashColor: Colors.grey,
-                                      dashLength: 2,
-                                      dashRadius: 1,
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    //fourth
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          'Плотность',
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                        Text(
-                                          '${transitsList[i].density} кг/м\xB3',
-                                          style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 21, 35, 99),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    const DottedLine(
-                                      dashColor: Colors.grey,
-                                      dashLength: 2,
-                                      dashRadius: 1,
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    //fifth
-                                    const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Курс',
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                        Text(
-                                          '92 \u20BD',
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 21, 35, 99),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    const DottedLine(
-                                      dashColor: Colors.grey,
-                                      dashLength: 2,
-                                      dashRadius: 1,
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    //sixth
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          'Доп. расходы',
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                        Text(
-                                          '${transitsList[i].dopSum} \u20BD',
-                                          style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 21, 35, 99),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                    const DottedLine(
-                                      dashColor: Colors.grey,
-                                      dashLength: 2,
-                                      dashRadius: 1,
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 13)),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateColor.resolveWith(
-                                                  (states) =>
-                                                      const Color.fromARGB(
-                                                          255, 21, 35, 99)),
-                                          minimumSize:
-                                              MaterialStateProperty.resolveWith(
-                                                  (states) =>
-                                                      const Size(130, 50)),
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          )),
-                                        ),
-                                        onPressed: () {
-                                          showDocsModal( i, context);
-                                        },
-                                        child: const Text('Документы')),
-                                    const Padding(
-                                        padding: EdgeInsets.only(left: 15)),
-                                    ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateColor.resolveWith(
-                                                  (states) =>
-                                                      const Color.fromARGB(
-                                                          255, 81, 114, 251)),
-                                          minimumSize:
-                                              MaterialStateProperty.resolveWith(
-                                                  (states) =>
-                                                      const Size(130, 50)),
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          )),
-                                        ),
-                                        onPressed: () {},
-                                        child: const Text('Расчетки')),
-                                  ],
-                                )
-                              ],
-                            ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                  const DottedLine(
+                                    dashColor: Colors.grey,
+                                    dashLength: 2,
+                                    dashRadius: 1,
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 13)),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) =>
+                                                    const Color.fromARGB(
+                                                        255, 21, 35, 99)),
+                                        minimumSize:
+                                            MaterialStateProperty.resolveWith(
+                                                (states) =>
+                                                    const Size(130, 50)),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        )),
+                                      ),
+                                      onPressed: () {
+                                        showDocsModal( i, context);
+                                      },
+                                      child: const Text('Документы')),
+                                  const Padding(
+                                      padding: EdgeInsets.only(left: 15)),
+                                  ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) =>
+                                                    const Color.fromARGB(
+                                                        255, 81, 114, 251)),
+                                        minimumSize:
+                                            MaterialStateProperty.resolveWith(
+                                                (states) =>
+                                                    const Size(130, 50)),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        )),
+                                      ),
+                                      onPressed: () {},
+                                      child: const Text('Расчетки')),
+                                ],
+                              )
+                            ],
                           ),
                         ),
                       ),

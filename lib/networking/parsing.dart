@@ -1,12 +1,16 @@
 // СТРУКТУРА ДЛЯ ГРУЗОВ
+import 'package:hl_flutter_app/Collections/status_col.dart';
 import 'package:isar/isar.dart';
 import '../Collections/transit_col.dart';
 import '../vars/variables.dart';
 
-void getTransitInfo() async {
+Future<List<Transit>> getTransitInfo() async {
+  List<Transit> allTransits = [];
   await isar.writeTxn(() async {
+    await isar.docs.clear();
+    await isar.statusInfos.clear();
     await isar.transits.clear();
-    for (var el in transits) {
+    for (var el in transits.values) {
       final newStatusInfo = StatusInfo()
         ..id = el['status_info']['status_id']
         ..statusName = el['status_info']['status']
@@ -30,12 +34,21 @@ void getTransitInfo() async {
       await newTransit.docs.save();
       await newTransit.statusInfo.save();
     }
+    allTransits = await isar.transits.where().findAll();
   });
-  transitsList = await readTransits();
-
+  return allTransits;
 }
 
-Future<List<Transit>> readTransits() async {
-  final allTransits = await isar.transits.where().findAll();
-  return allTransits;
+Future<List<Status>> getStatusInfo() async {
+  List<Status> allStatuses = [];
+  await isar.writeTxn(() async {
+    await isar.status.clear();
+    for (var el in statuses) {
+      final newStatus = Status()..name = el['name'];
+      await isar.status.put(newStatus);
+    }
+
+    allStatuses = await isar.status.where().findAll();
+  });
+  return allStatuses;
 }

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hl_flutter_app/generators/generate_widjet.dart';
-import 'package:hl_flutter_app/networking/request_vars.dart';
-
 import '../generators/pop_up.dart';
-
 import 'package:hl_flutter_app/vars/variables.dart';
 
 class MainScreen extends StatefulWidget {
@@ -17,7 +14,7 @@ class _MainScreenState extends State<MainScreen> {
   String _searchText = '';
   bool isConn = true;
 
-  _checkConn() async {
+_checkConn() async {
     final ckeckConn = await StartVars.updateLocalDB();
     setState(() {
       isConn = ckeckConn;
@@ -26,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    _checkConn();
+  //  _checkConn();
     super.initState();
   }
 

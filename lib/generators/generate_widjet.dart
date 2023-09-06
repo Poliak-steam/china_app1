@@ -23,8 +23,8 @@ class MainSlider extends StatelessWidget {
 
 // СОЗДАНИЕ БЛОКОВ СЛАЙДЕРА
 Widget createSlider(whoActive) {
-  final List<Widget> statusesList = [];
-  final count = OrderInfoResult.length - 1;
+  final List<Widget> sliderList = [];
+  final count = statusesList.length;
   Color activeColor;
 
   for (int i = 0; i < count; i++) {
@@ -33,7 +33,7 @@ Widget createSlider(whoActive) {
     } else {
       activeColor = const Color.fromARGB(255, 23, 38, 115);
     }
-    statusesList.add(GestureDetector(
+    sliderList.add(GestureDetector(
       onTap: () {
         statusIndex.value = i;
       },
@@ -54,7 +54,7 @@ Widget createSlider(whoActive) {
                 Expanded(
                   flex: 8,
                   child: Text(
-                    OrderInfoResult[i]["name"],
+                    statusesList[i].name,
                     style: const TextStyle(
                         color: Colors.white, fontFamily: 'Arial'),
                   ),
@@ -84,11 +84,11 @@ Widget createSlider(whoActive) {
   return ListView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: statusesList.length,
+      itemCount: sliderList.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(10),
-          child: statusesList[index],
+          child: sliderList[index],
         );
       });
 }

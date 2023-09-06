@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hl_flutter_app/networking/network_func.dart';
 import 'package:hl_flutter_app/storage/secure_storage.dart';
@@ -7,59 +8,71 @@ import 'package:hl_flutter_app/networking/data_requests.dart';
 import 'package:hl_flutter_app/networking/request_vars.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import '../Collections/status_col.dart';
 import '../Collections/transit_col.dart';
 import '../networking/parsing.dart';
 import '../notifications/notify.dart';
 
-Map orderInfoResp = {};
-List<Map> OrderInfoResult = [];
-Map CargosResp = {};
-Map<String, dynamic> CargosMap = {};
+List<Status> statusesList = [];
+Map<String, dynamic> transits = {};
+List<Map<String, dynamic>> statuses = [];
 List<Transit> transitsList = [];
 late Isar isar;
-List<Map<String, dynamic>> transits = [];
 late LocalNotificationService service;
 
 class StartVars {
-  static Future getVars() async {
+  static Future getVars(bool conn) async {
     //ОТКРЫТИЕ ЛОКАЛЬНОЙ БАЗЫ
-    final dbDir = await getApplicationDocumentsDirectory();
+    final dbDir = Platform.isAndroid
+        ? (await getApplicationDocumentsDirectory())
+        : (await getLibraryDirectory());
     isar = await Isar.open(
-      [TransitSchema, DocsSchema, StatusInfoSchema],
+      [TransitSchema, DocsSchema, StatusInfoSchema,StatusSchema],
       directory: dbDir.path,
     );
-    // ЗАПИСЬ В ХРАНИЛИЩЕ
-    final token = await postApi(RequestVar.getTokenRequest());
-    await SecureStorage.setToken(token['result']);
-    await SecureStorage.setBasicAuth('admin', 'ugUYT76hjg');
-    //ПОЛУЧЕНИЕ СТАТУСОВ
-    orderInfoResp = await postApi(await RequestVar.getStatusRequest());
-    OrderInfoResult =
-        (orderInfoResp["result"] as List).map((e) => e as Map).toList();
 
-    //ПОЛУЧЕНИЕ ГРУЗОВ
-    CargosResp = await postApi(await RequestVar.getCargosListRequest());
-    CargosMap = CargosResp['result']['baggages'];
 
-    for (int i = 0; i < CargosMap.length; i++) {
-      if (!CargosMap.keys.elementAt(i).contains('c')) {
-        transits.add(CargosMap.values.elementAt(i) as Map<String, dynamic>);
-      } else {
-        continue;
+
+
+
+
+    if(conn) {
+      // ЗАПИСЬ В ХРАНИЛИЩЕ
+      final token = await postApi(RequestVar.getTokenRequest());
+      await SecureStorage.setToken(token['result']);
+      await SecureStorage.setBasicAuth('admin', 'ugUYT76hjg');
+      //ПОЛУЧЕНИЕ ГРУЗОВ
+      final Map CargosResp =
+      await postApi(await RequestVar.getCargosListRequest());
+      transits = CargosResp['result']['baggages'] as Map<String, dynamic>;
+
+      for (int i = 0; i < transits.length; i++) {
+        transits.removeWhere((key, value) => key.startsWith('c'));
       }
+      transitsList = await getTransitInfo();
+
+      //ПОЛУЧЕНИЕ СТАТУСОВ
+      statuses =
+          ((await postApi(await RequestVar.getStatusRequest()))['result'] as List)
+              .map((e) => e as Map<String, dynamic>)
+              .toList();
+      statusesList = await getStatusInfo();
+      //ИНИЦИАЛИЗАЦИЯ ЛОКАЛЬНЫХ УВЕДОМЛЕНИЙ
+      service = LocalNotificationService();
+      await service.initialize();
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        service.showNotification(
+            id: 1,
+            title: message.notification?.title ?? 'notify have no body',
+            body: message.notification?.body ?? 'notify have no body');
+      });
+    } else {
+      await isar.writeTxn(() async {
+        statusesList = await isar.status.where().findAll();
+        transitsList = await isar.transits.where().findAll();
+
+      });
     }
-
-    //ИНИЦИАЛИЗАЦИЯ ЛОКАЛЬНЫХ УВЕДОМЛЕНИЙ
-    service = LocalNotificationService();
-    service.initialize();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      service.showNotification(
-          id: 1,
-          title: message.notification?.title ?? 'notify have no body',
-          body: message.notification?.body ?? 'notify have no body');
-    });
-
-    getTransitInfo();
   }
 
   static Future<bool> updateLocalDB() async {

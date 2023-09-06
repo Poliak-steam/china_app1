@@ -5,9 +5,9 @@ import 'package:path_provider/path_provider.dart';
  Future<TaskStatus> downloadFile() async {
   //create download task
   final task = await DownloadTask(
-          url: 'http://spspo.ru/data/3497.pdf',
+          url: 'https://bioyar.by/wp/wp-content/uploads/bogdanova.pdf',
           updates: Updates.statusAndProgress,
-          baseDirectory: BaseDirectory.applicationSupport,
+          baseDirectory: Platform.isAndroid ? BaseDirectory.applicationSupport : BaseDirectory.applicationDocuments,
           allowPause: true,
           metaData: 'data for me')
       .withSuggestedFilename(unique: true);
