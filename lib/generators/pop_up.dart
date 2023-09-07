@@ -52,7 +52,7 @@ void showTransModal(int i, context) {
                       topLeft: Radius.circular(20)),
                   color: Color.fromARGB(255, 238, 240, 244),
                 ),
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: Column(
                   children: [
                     const Row(
@@ -350,50 +350,54 @@ void showTransModal(int i, context) {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateColor.resolveWith(
-                                                (states) =>
-                                                    const Color.fromARGB(
-                                                        255, 21, 35, 99)),
-                                        minimumSize:
-                                            MaterialStateProperty.resolveWith(
-                                                (states) =>
-                                                    const Size(130, 50)),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        )),
-                                      ),
-                                      onPressed: () {
-                                        showDocsModal(i, context);
-                                      },
-                                      child: const Text('Документы')),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateColor.resolveWith(
+                                                  (states) =>
+                                                      const Color.fromARGB(
+                                                          255, 21, 35, 99)),
+                                          minimumSize:
+                                              MaterialStateProperty.resolveWith(
+                                                  (states) =>
+                                                      const Size(0, 50)),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          )),
+                                        ),
+                                        onPressed: () {
+                                          showDocsModal(i, context);
+                                        },
+                                        child: const Text('Документы')),
+                                  ),
                                   const Padding(
                                       padding: EdgeInsets.only(left: 15)),
-                                  ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateColor.resolveWith(
-                                                (states) =>
-                                                    const Color.fromARGB(
-                                                        255, 81, 114, 251)),
-                                        minimumSize:
-                                            MaterialStateProperty.resolveWith(
-                                                (states) =>
-                                                    const Size(130, 50)),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        )),
-                                      ),
-                                      onPressed: () {},
-                                      child: const Text('Расчетки')),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateColor.resolveWith(
+                                                  (states) =>
+                                                      const Color.fromARGB(
+                                                          255, 81, 114, 251)),
+                                          minimumSize:
+                                              MaterialStateProperty.resolveWith(
+                                                  (states) =>
+                                                      const Size(0, 50)),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          )),
+                                        ),
+                                        onPressed: () {},
+                                        child: const Text('Расчетки')),
+                                  ),
                                 ],
                               )
                             ],
