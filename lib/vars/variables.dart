@@ -31,11 +31,6 @@ class StartVars {
       directory: dbDir.path,
     );
 
-
-
-
-
-
     if(conn) {
       // ЗАПИСЬ В ХРАНИЛИЩЕ
       final token = await postApi(RequestVar.getTokenRequest());
@@ -67,6 +62,8 @@ class StartVars {
             body: message.notification?.body ?? 'notify have no body');
       });
     } else {
+      service = LocalNotificationService();
+      await service.initialize();
       await isar.writeTxn(() async {
         statusesList = await isar.status.where().findAll();
         transitsList = await isar.transits.where().findAll();

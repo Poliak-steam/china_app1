@@ -1,7 +1,6 @@
 import 'package:hl_flutter_app/generators/pop_up.dart';
 import 'package:flutter/material.dart';
 import 'package:hl_flutter_app/vars/variables.dart';
-
 var statusIndex = ValueNotifier(-1);
 
 //СЛАЙДЕР
@@ -130,7 +129,6 @@ Widget createTransitTable(int statusIndex, String searchText, context) {
 
 // СОЗДАНИЕ СПИСКА ЗАКАЗОВ
 void addBaggages(List<Widget> List, int i, context) {
-
   List.add(
     InkWell(
       onTap: () {
@@ -164,10 +162,15 @@ void addBaggages(List<Widget> List, int i, context) {
                     )
                   ],
                 ),
-                Text(
-                  transitsList[i].numberClient,
-                  style: const TextStyle(
-                      fontSize: 16, color: Color.fromARGB(255, 23, 38, 115)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 180,
+                  child: Text(
+                    transitsList[i].numberClient,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 23, 38, 115)),
+                  ),
                 )
               ],
             ),

@@ -14,10 +14,29 @@ class LocalNotificationService {
         AndroidInitializationSettings('@mipmap/logo_android');
     const DarwinInitializationSettings iosInitialisationSettings =
         DarwinInitializationSettings();
+    const DarwinNotificationDetails darwinDetailsForDownloads =
+        DarwinNotificationDetails(
+      presentSound: false,
+      presentAlert: false,
+      presentBanner: true,
+      presentBadge: true,
+      presentList: true,
+      badgeNumber: 2,
+    );
     const InitializationSettings settings = InitializationSettings(
         android: androidInitializationSettings, iOS: iosInitialisationSettings);
     await _localNotificationService.initialize(settings);
   }
+
+  DarwinNotificationDetails darwinDetailsForDownloads =
+      const DarwinNotificationDetails(
+    presentSound: false,
+    presentAlert: false,
+    presentBanner: false,
+    presentBadge: false,
+    presentList: false,
+    badgeNumber: 2,
+  );
 
   Future<NotificationDetails> _notificationDetails(notifyID) async {
     AndroidNotificationDetails androidNotificationDetails =
@@ -27,7 +46,9 @@ class LocalNotificationService {
             priority: Priority.max,
             playSound: true);
     DarwinNotificationDetails darwinNotificationDetails =
-        const DarwinNotificationDetails(presentSound: false);
+        const DarwinNotificationDetails(
+      presentSound: false,
+    );
 
     return NotificationDetails(
         android: androidNotificationDetails, iOS: darwinNotificationDetails);
@@ -39,11 +60,28 @@ class LocalNotificationService {
     required String title,
     required String body,
   }) async {
-    _localNotificationService.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
+    _localNotificationService
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
     final details = await _notificationDetails(id);
     try {
       await _localNotificationService.show(id, title, body, details);
+    } catch (er) {
+      print('$er notify error');
+    }
+    ;
+  }
+
+  //уведомление  загрузки
+  Future<void> showDownloadNotify({
+    required int id,
+    required String title,
+    required String body,
+  }) async {
+    try {
+      await _localNotificationService.show(
+          id, title, body, NotificationDetails(iOS: darwinDetailsForDownloads));
     } catch (er) {
       print('$er notify error');
     }

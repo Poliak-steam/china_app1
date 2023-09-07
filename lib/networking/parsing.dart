@@ -15,7 +15,7 @@ Future<List<Transit>> getTransitInfo() async {
         ..id = el['status_info']['status_id']
         ..statusName = el['status_info']['status']
         ..statusDate = el['status_info']['date'];
-      final newDocs = Docs()..name = 'hh';
+      final newDocs = Docs()..name = (el['full_info']['account_document'] != '') ? el['full_info']['account_document']['name'] :'no files';
       final newTransit = Transit()
         ..id = int.parse(el['id'])
         ..numberClient = el['number_client']

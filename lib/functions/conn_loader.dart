@@ -22,8 +22,7 @@ load(context) async {
   }));
 
   await Permission.notification.request();
-  await Permission.manageExternalStorage.request();
-  await iosRequest();
+  //await iosRequest();
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 

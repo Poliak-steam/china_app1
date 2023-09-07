@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:background_downloader/background_downloader.dart';
 import 'package:hl_flutter_app/functions/string_functions.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -122,10 +121,14 @@ void showTransModal(int i, context) {
                           Row(
                             children: [
                               Text(
-                                '${transitsList[i].statusInfo.value!.statusDate}'.substring(
-                                    0,
-                                    transitsList[i].statusInfo.value!.statusDate
-                                        .indexOf(' ')),
+                                '${transitsList[i].statusInfo.value!.statusDate}'
+                                    .substring(
+                                        0,
+                                        transitsList[i]
+                                            .statusInfo
+                                            .value!
+                                            .statusDate
+                                            .indexOf(' ')),
                                 style: const TextStyle(color: Colors.grey),
                               ),
                             ],
@@ -166,15 +169,15 @@ void showTransModal(int i, context) {
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 10)),
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                            color: Colors.white,
-                          ),
-                          padding: const EdgeInsets.all(33),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.white,
+                        ),
+                        padding: const EdgeInsets.all(33),
+                        child: SingleChildScrollView(
                           child: Column(
                             children: [
                               Column(
@@ -366,7 +369,7 @@ void showTransModal(int i, context) {
                                         )),
                                       ),
                                       onPressed: () {
-                                        showDocsModal( i, context);
+                                        showDocsModal(i, context);
                                       },
                                       child: const Text('Документы')),
                                   const Padding(
@@ -517,27 +520,36 @@ void showDocsModal(int i, context) {
                 child: Column(
                   children: [
                     GestureDetector(
-                      onTap:() async {
-                       final filePath = '${(await getApplicationSupportDirectory()).path}/3497.pdf';
-                        if(await File(filePath).exists()) {
+                      onTap: () async {
+                        final filePath =
+                            '${(await getApplicationSupportDirectory()).path}/3497.pdf';
+                        if (await File(filePath).exists()) {
                           FileDownloader().openFile(filePath: filePath);
                         } else {
                           await downloadFile();
                         }
                       },
-
-                      child: Row(
-                        children: [
-                          const Image(image: AssetImage('assets/img/docs.png')),
-                          const Padding(padding: EdgeInsets.only(right: 15)),
-                          Expanded(
-                            child: Text(
-                              transitsList[i].docs.value!.name,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 21, 35, 99)),
+                      child: Container(
+                        height: 45,
+                        child: Row(
+                          children: [
+                            const Image(
+                              image: AssetImage('assets/img/docs.png'),
+                              fit: BoxFit.fill,
+                              height: 32,
+                              width: 26,
                             ),
-                          )
-                        ],
+                            const Padding(padding: EdgeInsets.only(right: 15)),
+                            Expanded(
+                              child: Text(
+                                transitsList[i].docs.value!.name,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 21, 35, 99)),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 6)),
@@ -587,9 +599,7 @@ class Menu extends StatelessWidget {
                 Icons.widgets,
                 color: Color.fromARGB(255, 22, 36, 104),
               ),
-              onTap: () {
-
-              }),
+              onTap: () {}),
           ListTile(
               title: const Text("Выйти"),
               leading: const Icon(Icons.logout,

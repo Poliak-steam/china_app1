@@ -14,11 +14,12 @@ import FirebaseMessaging
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
 
       FirebaseApp.configure()
+    GeneratedPluginRegistrant.register(with: self)
 
 
-UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
 
       let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
       UNUserNotificationCenter.current().requestAuthorization(
@@ -29,10 +30,7 @@ UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDe
       application.registerForRemoteNotifications()
       Messaging.messaging().delegate = self
 
-  FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
-          GeneratedPluginRegistrant.register(with: registry)
-        }
-    GeneratedPluginRegistrant.register(with: self)
+
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

@@ -14,19 +14,17 @@ class _MainScreenState extends State<MainScreen> {
   String _searchText = '';
   bool isConn = true;
 
-_checkConn() async {
+  _checkConn() async {
     final ckeckConn = await StartVars.updateLocalDB();
     setState(() {
       isConn = ckeckConn;
     });
   }
-
   @override
   void initState() {
-  //  _checkConn();
+    _checkConn();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
