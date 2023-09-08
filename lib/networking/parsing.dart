@@ -1,10 +1,11 @@
 // СТРУКТУРА ДЛЯ ГРУЗОВ
+import 'package:hl_flutter_app/Collections/creditial_col.dart';
 import 'package:hl_flutter_app/Collections/status_col.dart';
 import 'package:isar/isar.dart';
 import '../Collections/transit_col.dart';
 import '../vars/variables.dart';
 
-Future<List<Transit>> getTransitInfo() async {
+Future<List<Transit>> getTransitInfo(Map<String, dynamic> transits) async {
   List<Transit> allTransits = [];
   await isar.writeTxn(() async {
     await isar.docs.clear();
@@ -51,4 +52,25 @@ Future<List<Status>> getStatusInfo() async {
     allStatuses = await isar.status.where().findAll();
   });
   return allStatuses;
+}
+
+
+Future<void> setUserData(Map creditials) async {
+  await isar.writeTxn(() async {
+    await isar.creditials.clear();
+
+    for(int i = 0;i<creditials.length;i++) {
+      final newCreditials = Creditial()
+        ..id = int.parse(creditials['id'])
+        ..name = creditials['name']
+        ..phone = creditials['phone']
+        ..secondName = creditials['secondname']
+        ..company = creditials['company']
+        ..surname = creditials['surname'];
+      await isar.creditials.put(newCreditials);
+    }
+
+
+  });
+
 }

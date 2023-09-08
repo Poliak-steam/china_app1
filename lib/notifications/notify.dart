@@ -2,7 +2,10 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as tz;
+
+import '../vars/variables.dart';
 
 class LocalNotificationService {
   LocalNotificationService();
@@ -86,6 +89,26 @@ class LocalNotificationService {
       print('$er notify error');
     }
     ;
+  }
+}
+
+Future<void> notifyListeners() async {
+  //Запрос на показ уведомлений
+  final result = await Permission.notification.request();
+  //await iosRequest(); хз нужен ли он
+
+  if(result.isGranted) {
+    // Подписка на фоновые уведомления
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    //Инициализация локальных уведомлений
+    await service.initialize();
+    //Подписка на foreground уведомления
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      service.showNotification(
+          id: 1,
+          title: message.notification?.title ?? 'notify have no body',
+          body: message.notification?.body ?? 'notify have no body');
+    });
   }
 }
 

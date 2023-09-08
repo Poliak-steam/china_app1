@@ -26,9 +26,29 @@ class RequestVar {
     };
     return statusRequest;
   }
+
+  static Future<Map<String, String>> checkAppClientToPhone(phone) async{
+    Map<String, String> AppCkeck = {
+      'request': 'checkAppClientToPhone',
+      'token': '${await SecureStorage.getToken()}',
+      'phone': '79996812521',
+    };
+    return AppCkeck;
+  }
+
+  static Future<Map<String, String>> insertAppClientFcmToken(fcmToken,clientId) async{
+    Map<String, String> fcmregister = {
+      'request': 'insertAppClientFcmToken',
+      'token': '${await SecureStorage.getToken()}',
+      'fcmToken': '$fcmToken',
+      'clientId': '$clientId',
+    };
+    return fcmregister;
+  }
+
   static Map<String, String> getTest() {
     Map<String, String> statusRequest = {
-      'request': 'tes'
+      'request': 'test'
     };
     return statusRequest;
   }

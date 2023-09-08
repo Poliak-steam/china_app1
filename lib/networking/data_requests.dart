@@ -15,6 +15,7 @@ Future<Map> postApi(Map requestMap) async {
       headers: {'authorization': 'Basic ' + base64.encode(utf8.encode('admin:ugUYT76hjg'))},
       body: requestMap,
     );
+    
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (!response.body.contains('error_text')) {
@@ -23,7 +24,7 @@ Future<Map> postApi(Map requestMap) async {
         } else {
           return {'error': 'empty'};
         }
-      } else if (response.body[0].contains('Неверный ключ')) {
+      } else if (json.decode(response.body)['error_text'].toString().contains('Неверный ключ')) {
         await SecureStorage.setToken(
             (await postApi(RequestVar.getTokenRequest()))['result']);
         try {
@@ -43,7 +44,7 @@ Future<Map> postApi(Map requestMap) async {
         }
       } else {
         print(
-            'post wasn\'t send from error: ${response.body.allMatches('error_text')}');
+            'post wasn\'t send from error: ${(json.decode(response.body))['error_text']}');
         return {'error':'response has error_text'};
       }
     } else {
